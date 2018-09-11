@@ -52,6 +52,11 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<Event> findByName(Pageable pageable) {
+        return null;
+    }
+
 
     /**
      * Get one event by id.

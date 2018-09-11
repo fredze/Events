@@ -38,8 +38,7 @@ public interface EventService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Query("SELECT p FROM Event p where p.name like :x")
-    Page<Event> findAllByName(@Param("x")String mc, Pageable pageable);
+
 
 
     /**
