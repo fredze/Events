@@ -1,0 +1,58 @@
+<div>
+    <h2 id="page-heading">
+        <span>Event Orders</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event-order" [routerLink]="['/event-order/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Event Order
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="eventOrders">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="totalPrice"><span>Total Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createAt"><span>Create At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stateEventOrder"><span>State Event Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let eventOrder of eventOrders ;trackBy: trackId">
+                <td><a [routerLink]="['/event-order', eventOrder.id, 'view' ]">{{eventOrder.id}}</a></td>
+                <td>{{eventOrder.totalPrice}}</td>
+                <td>{{eventOrder.createAt | date:'mediumDate'}}</td>
+                <td>{{eventOrder.stateEventOrder}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/event-order', eventOrder.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/event-order', eventOrder.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'event-order/'+ eventOrder.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

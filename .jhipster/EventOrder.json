@@ -1,0 +1,28 @@
+{
+    "name": "EventOrder",
+    "fields": [
+        {
+            "fieldName": "totalPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "createAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "stateEventOrder",
+            "fieldType": "StateEventOrder",
+            "fieldValues": "CONFIRMED,CANCELLED,INPROGRESS,WAITING"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180911115324",
+    "entityTableName": "event_order",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

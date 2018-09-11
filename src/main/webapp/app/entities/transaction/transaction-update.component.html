@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-transaction-heading">Create or edit a Transaction</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!transaction.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="transaction.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="transaction.price" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateTransaction">Date Transaction</label>
+                    <div class="input-group">
+                        <input id="field_dateTransaction" type="text" class="form-control" name="dateTransaction" ngbDatepicker  #dateTransactionDp="ngbDatepicker" [(ngModel)]="transaction.dateTransaction"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateTransactionDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_payment">Payment</label>
+                    <input type="text" class="form-control" name="payment" id="field_payment"
+                        [(ngModel)]="transaction.payment" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_eventOrder">Event Order</label>
+                    <select class="form-control" id="field_eventOrder" name="eventOrder" [(ngModel)]="transaction.eventOrder">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="eventOrderOption.id === transaction.eventOrder?.id ? transaction.eventOrder : eventOrderOption" *ngFor="let eventOrderOption of eventorders; trackBy: trackEventOrderById">{{eventOrderOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
