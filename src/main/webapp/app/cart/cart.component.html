@@ -1,0 +1,32 @@
+<ul class="list-group">
+    <li *ngFor="let p of products" class="list-group-item">
+        [{{p.item.id}}] {{p.item.name}}
+
+        <div class="float-right">
+            <form class="form-inline">
+                <div class="form-group mb-2">
+                    <label for="price" class="sr-only">Price</label>
+                    <div class="input-group">
+                        <input type="text" readonly class="form-control" id="price" [value]="p.item.price">
+                        <div class="input-group-append">
+                            <div class="input-group-text">€</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="number-{{p.id}}" class="sr-only">NB</label>
+                    <input type="number" min="1" max="100" step="1" class="form-control" id="number-{{p.id}}" name="number-{{p.id}}" [(ngModel)]="p.number">
+                </div>
+
+                <button class="btn btn-danger" (click)="removeProduct(p)">X</button>
+            </form>
+        </div>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col">
+        <h4>Prix total = {{total}}€</h4>
+    </div>
+</div>
