@@ -6,6 +6,7 @@ import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
 import { CartItem, CartService } from 'app/cart.service';
+import { faDolly } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'jhi-navbar',
@@ -19,6 +20,8 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+
+    faDolly = faDolly;
 
     constructor(
         private loginService: LoginService,

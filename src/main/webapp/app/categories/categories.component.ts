@@ -15,6 +15,7 @@ import { Event } from 'app/shared/model/event.model';
 export class CategoriesComponent implements OnInit {
     categories: Map<number, Category>;
     events: Map<number, Event[]>;
+    searchText = '';
 
     faCircle = faCircle;
 
@@ -54,5 +55,9 @@ export class CategoriesComponent implements OnInit {
 
     eventsArray(n: number) {
         return this.events.get(n);
+    }
+
+    searchEvent() {
+        this.eventService.search(this.searchText).subscribe(r => console.log(r));
     }
 }
