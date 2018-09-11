@@ -2,7 +2,11 @@ package com.eventecommerce.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.eventecommerce.domain.EventOrder;
+import com.eventecommerce.domain.EventOrderLine;
+import com.eventecommerce.domain.enumeration.StateEventOrder;
+import com.eventecommerce.repository.EventOrderLineRepository;
 import com.eventecommerce.repository.EventOrderRepository;
+import com.eventecommerce.service.EventService;
 import com.eventecommerce.web.rest.errors.BadRequestAlertException;
 import com.eventecommerce.web.rest.util.HeaderUtil;
 import com.eventecommerce.web.rest.util.PaginationUtil;
@@ -19,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +41,43 @@ public class EventOrderResource {
 
     private final EventOrderRepository eventOrderRepository;
 
+    private  EventOrderLineRepository eventOrderLineRepository;
+
     public EventOrderResource(EventOrderRepository eventOrderRepository) {
         this.eventOrderRepository = eventOrderRepository;
+    }
+
+
+    /**
+     * POST  /event-orders : Create a new eventOrder.
+     *
+     * @return the ResponseEntity with status 201 (Created) and with body the new eventOrder, or with status 400 (Bad Request) if the eventOrder has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/create-event-orders")
+    @Timed
+    public ResponseEntity<EventOrder> createEventOrderWithEventOrderLine(@RequestParam List<EventOrderLine> listEventOrderLine;
+    ) throws URISyntaxException {
+        Double totalPrice = 0.0;
+        LocalDate date = LocalDate.now();
+
+        for(EventOrderLine eLine : listEventOrderLine){
+            totalPrice =+ eLine.getPrice();
+        }
+
+        EventOrder eventOrder = eventOrderRepository.save(new EventOrder(totalPrice,date,StateEventOrder.WAITING));
+        for(EventOrderLine eLine : listEventOrderLine){
+            eLine.setEventOrder(eventOrder);
+            eventOrderLineRepository.save(eLine);
+        }
+
+        log.debug("REST request to save EventOrder with listorderLine: {}", eventOrder);
+        if (eventOrder.getId() != null) {
+            throw new BadRequestAlertException("A new eventOrder cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        return ResponseEntity.created(new URI("/api/create-event-orders/" + eventOrder.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, eventOrder.getId().toString()))
+            .body(eventOrder);
     }
 
     /**
