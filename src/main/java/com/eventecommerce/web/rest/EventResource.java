@@ -2,6 +2,7 @@ package com.eventecommerce.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.eventecommerce.domain.Event;
+import com.eventecommerce.repository.EventRepository;
 import com.eventecommerce.service.EventService;
 import com.eventecommerce.web.rest.errors.BadRequestAlertException;
 import com.eventecommerce.web.rest.util.HeaderUtil;
@@ -10,6 +11,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,9 +36,30 @@ public class EventResource {
     private static final String ENTITY_NAME = "event";
 
     private final EventService eventService;
+    private  EventRepository eventRepository;
 
     public EventResource(EventService eventService) {
         this.eventService = eventService;
+    }
+
+    /**
+     *
+     * @param mc
+     * @param size
+     * @param page
+     * @return
+     */
+    @GetMapping("/events-by-name")
+    @Timed
+    public ResponseEntity<List<Event>> getAllEventsByName(
+        @RequestParam(name="mc", defaultValue = "") String mc,
+        @RequestParam(name="size", defaultValue = "5") int size,
+        @RequestParam(name="page", defaultValue = "0") int page) {
+
+        log.debug("REST request to get a page of Events by name ");
+        Page<Event> events = eventRepository.findEventsByName("%"+mc+"%", PageRequest.of(page,size));
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
+        return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
     }
 
     /**
