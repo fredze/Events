@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-event-heading">Create or edit a Event</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!event.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="event.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="event.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="event.price" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_responsable">Responsable</label>
+                    <input type="text" class="form-control" name="responsable" id="field_responsable"
+                        [(ngModel)]="event.responsable" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalPlaces">Total Places</label>
+                    <input type="number" class="form-control" name="totalPlaces" id="field_totalPlaces"
+                        [(ngModel)]="event.totalPlaces" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_availablePlaces">Available Places</label>
+                    <input type="number" class="form-control" name="availablePlaces" id="field_availablePlaces"
+                        [(ngModel)]="event.availablePlaces" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateEvent">Date Event</label>
+                    <div class="input-group">
+                        <input id="field_dateEvent" type="text" class="form-control" name="dateEvent" ngbDatepicker  #dateEventDp="ngbDatepicker" [(ngModel)]="event.dateEvent"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateEventDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_placeEvent">Place Event</label>
+                    <input type="text" class="form-control" name="placeEvent" id="field_placeEvent"
+                        [(ngModel)]="event.placeEvent" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="event.description" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stateEvent">State Event</label>
+                    <select class="form-control" name="stateEvent" [(ngModel)]="event.stateEvent" id="field_stateEvent" >
+                        <option value="AVAILABLE">AVAILABLE</option>
+                        <option value="UNAVAILABLE">UNAVAILABLE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_pricipalPicture">Pricipal Picture</label>
+                    <input type="text" class="form-control" name="pricipalPicture" id="field_pricipalPicture"
+                        [(ngModel)]="event.pricipalPicture" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_category">Category</label>
+                    <select class="form-control" id="field_category" name="category" [(ngModel)]="event.category" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="categoryOption.id === event.category?.id ? event.category : categoryOption" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="transaction">
+            <h2><span>Transaction</span> {{transaction.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{transaction.price}}</span>
+                </dd>
+                <dt><span>Date Transaction</span></dt>
+                <dd>
+                    <span>{{transaction.dateTransaction}}</span>
+                </dd>
+                <dt><span>Payment</span></dt>
+                <dd>
+                    <span>{{transaction.payment}}</span>
+                </dd>
+                <dt><span>Event Order</span></dt>
+                <dd>
+                    <div *ngIf="transaction.eventOrder">
+                        <a [routerLink]="['/event-order', transaction.eventOrder?.id, 'view']">{{transaction.eventOrder?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/transaction', transaction.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="event">
+            <h2><span>Event</span> {{event.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{event.name}}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{event.price}}</span>
+                </dd>
+                <dt><span>Responsable</span></dt>
+                <dd>
+                    <span>{{event.responsable}}</span>
+                </dd>
+                <dt><span>Total Places</span></dt>
+                <dd>
+                    <span>{{event.totalPlaces}}</span>
+                </dd>
+                <dt><span>Available Places</span></dt>
+                <dd>
+                    <span>{{event.availablePlaces}}</span>
+                </dd>
+                <dt><span>Date Event</span></dt>
+                <dd>
+                    <span>{{event.dateEvent}}</span>
+                </dd>
+                <dt><span>Place Event</span></dt>
+                <dd>
+                    <span>{{event.placeEvent}}</span>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{event.description}}</span>
+                </dd>
+                <dt><span>State Event</span></dt>
+                <dd>
+                    <span>{{event.stateEvent}}</span>
+                </dd>
+                <dt><span>Pricipal Picture</span></dt>
+                <dd>
+                    <span>{{event.pricipalPicture}}</span>
+                </dd>
+                <dt><span>Category</span></dt>
+                <dd>
+                    <div *ngIf="event.category">
+                        <a [routerLink]="['/category', event.category?.id, 'view']">{{event.category?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/event', event.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
