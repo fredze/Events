@@ -56,7 +56,7 @@ public class EventOrderResource {
      */
     @PostMapping("/create-event-orders")
     @Timed
-    public ResponseEntity<EventOrder> createEventOrderWithEventOrderLine(@RequestParam List<EventOrderLine> listEventOrderLine;
+    public ResponseEntity<EventOrder> createEventOrderWithEventOrderLine(@RequestParam List<EventOrderLine> listEventOrderLine
     ) throws URISyntaxException {
         Double totalPrice = 0.0;
         LocalDate date = LocalDate.now();
