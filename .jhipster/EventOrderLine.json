@@ -24,7 +24,11 @@
             "otherEntityField": "id"
         }
     ],
+<<<<<<< HEAD
     "changelogDate": "20180911115323",
+=======
+    "changelogDate": "20180911084313",
+>>>>>>> dbc9bbc33b8ea6d05c471747ba202ec27ed3aee3
     "entityTableName": "event_order_line",
     "dto": "no",
     "pagination": "no",

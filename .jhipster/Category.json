@@ -11,7 +11,11 @@
         }
     ],
     "relationships": [],
+<<<<<<< HEAD
     "changelogDate": "20180911115321",
+=======
+    "changelogDate": "20180911084311",
+>>>>>>> dbc9bbc33b8ea6d05c471747ba202ec27ed3aee3
     "entityTableName": "category",
     "dto": "no",
     "pagination": "infinite-scroll",
