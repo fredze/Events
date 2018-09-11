@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class EventResource {
      * @param page
      * @return
      */
-    @GetMapping("/events-by-name")
+    /*@GetMapping("/events-by-name")
     @Timed
     public ResponseEntity<List<Event>> getAllEventsByName(
         @RequestParam(name="mc", defaultValue = "") String mc,
@@ -60,6 +61,25 @@ public class EventResource {
         Page<Event> events = eventRepository.findEventsByName("%"+mc+"%", PageRequest.of(page,size));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
         return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
+    }*/
+
+    /**
+     *
+     * @param mc
+     * @param size
+     * @param page
+     * @return
+     */
+    @GetMapping("/events-by-name")
+    @Timed
+    public ResponseEntity<List<Event>> getAllEventsByName(
+        @RequestParam(name="mc", defaultValue = "") String mc,
+        @RequestParam(name="size", defaultValue = "5") int size,
+        @RequestParam(name="page", defaultValue = "0") int page) {
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(null, "/api/events-by-name");
+
+        return new ResponseEntity<>(null, headers, HttpStatus.OK);
     }
 
 
