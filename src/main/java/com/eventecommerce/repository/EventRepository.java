@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Spring Data  repository for the Event entity.
@@ -14,15 +16,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-
-    /**
-     * Find a events by searching with name of events
-     * @param mc
-     * @param pageable
-     * @return
-     */
-    @Query("SELECT p FROM Event p where p.name like :x")
-    Page<Event> findEventsByName(@Param("x")String mc, Pageable pageable);
-
-
+    Page<Event> findByNameIgnoreCaseContaining(String name, Pageable p);
 }

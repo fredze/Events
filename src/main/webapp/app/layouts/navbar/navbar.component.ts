@@ -7,6 +7,7 @@ import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
 import { CartItem, CartService } from 'app/cart.service';
 import { faDolly, faMapMarked, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { EventService } from 'app/entities/event';
 
 @Component({
     selector: 'jhi-navbar',
@@ -20,6 +21,7 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    searchText = '';
 
     faDolly = faDolly;
     faSearch = faSearch;
@@ -31,7 +33,8 @@ export class NavbarComponent implements OnInit {
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router,
-        private cartService: CartService
+        private cartService: CartService,
+        private eventService: EventService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -92,5 +95,10 @@ export class NavbarComponent implements OnInit {
 
     cartTotalPrice(): number {
         return this.cartService.cartTotalPrice();
+    }
+
+    search(): void {
+        // this.eventService.search(this.searchText).subscribe(r => console.log(r));
+        this.router.navigate(['/search-event', this.searchText]);
     }
 }

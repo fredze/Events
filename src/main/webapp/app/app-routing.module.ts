@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { errorRoute, navbarRoute } from './layouts';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
-import { CategoriesComponent } from 'app/categories/categories.component';
-import { CartComponent } from 'app/cart/cart.component';
+import { EVENTS_ROUTE } from 'app/events/events.route';
+import { CART_ROUTE } from 'app/cart/cart.route';
+import { SEARCH_EVENT_ROUTE } from 'app/search-event/search-event.route';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -11,8 +12,9 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
     imports: [
         RouterModule.forRoot(
             [
-                { path: 'categories', component: CategoriesComponent },
-                { path: 'cart', component: CartComponent },
+                EVENTS_ROUTE,
+                CART_ROUTE,
+                SEARCH_EVENT_ROUTE,
                 ...LAYOUT_ROUTES,
                 {
                     path: 'admin',

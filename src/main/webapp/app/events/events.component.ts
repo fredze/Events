@@ -8,14 +8,13 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Event } from 'app/shared/model/event.model';
 
 @Component({
-    selector: 'jhi-categories',
-    templateUrl: './categories.component.html',
+    selector: 'jhi-events',
+    templateUrl: './events.component.html',
     styles: []
 })
-export class CategoriesComponent implements OnInit {
+export class EventsComponent implements OnInit {
     categories: Map<number, Category>;
     events: Map<number, Event[]>;
-    searchText = '';
 
     faCircle = faCircle;
 
@@ -55,9 +54,5 @@ export class CategoriesComponent implements OnInit {
 
     eventsArray(n: number) {
         return this.events.get(n);
-    }
-
-    searchEvent() {
-        this.eventService.search(this.searchText).subscribe(r => console.log(r));
     }
 }

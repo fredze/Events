@@ -40,12 +40,12 @@ export class EventService {
 
     search(text: string): Observable<EntityArrayResponseType> {
         const options = createRequestOption({
-            mc: text,
+            name: text,
             size: 10,
             page: 0
         });
         return this.http
-            .get<IEvent[]>('events-by-name', { params: options, observe: 'response' })
+            .get<IEvent[]>('api/events-by-name', { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 

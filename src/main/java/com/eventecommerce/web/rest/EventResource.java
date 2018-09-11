@@ -37,15 +37,16 @@ public class EventResource {
     private static final String ENTITY_NAME = "event";
 
     private final EventService eventService;
-    private  EventRepository eventRepository;
+    private EventRepository eventRepository;
 
-    public EventResource(EventService eventService) {
+    public EventResource(EventService eventService, EventRepository eventRepository) {
         this.eventService = eventService;
+        this.eventRepository = eventRepository;
     }
 
     /**
      *
-     * @param mc
+     * @param name
      * @param size
      * @param page
      * @return
@@ -53,12 +54,12 @@ public class EventResource {
     @GetMapping("/events-by-name")
     @Timed
     public ResponseEntity<List<Event>> getAllEventsByName(
-        @RequestParam(name="mc", defaultValue = "") String mc,
+        @RequestParam(name="name", defaultValue = "") String name,
         @RequestParam(name="size", defaultValue = "5") int size,
         @RequestParam(name="page", defaultValue = "0") int page) {
 
-        log.debug("REST request to get a page of Events by name ");
-        Page<Event> events = eventService.findAll(PageRequest.of(page,size));
+        log.debug("REST request to get a page of Events by name");
+        Page<Event> events = eventRepository.findByNameIgnoreCaseContaining(name, PageRequest.of(page, size));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
         return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
     }

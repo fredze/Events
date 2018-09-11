@@ -20,8 +20,9 @@ import { EventsEcommerceEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
-import { CategoriesComponent } from './categories/categories.component';
-import { CartComponent } from './cart/cart.component';
+import { EventsComponent } from 'app/events/events.component';
+import { CartComponent } from 'app/cart/cart.component';
+import { SearchEventComponent } from './search-event/search-event.component';
 
 @NgModule({
     imports: [
@@ -41,8 +42,9 @@ import { CartComponent } from './cart/cart.component';
         ErrorComponent,
         PageRibbonComponent,
         FooterComponent,
-        CategoriesComponent,
-        CartComponent
+        EventsComponent,
+        CartComponent,
+        SearchEventComponent
     ],
     providers: [
         {

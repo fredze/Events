@@ -11,9 +11,9 @@
     <div class="navbar-search">
         <form>
             <div class="input-group">
-                <input type="text" name="searchBar" placeholder="Search" class="form-control">
+                <input type="text" name="searchBar" placeholder="Search" class="form-control" [(ngModel)]="searchText">
                 <div class="input-group-append">
-                    <button class="btn btn-primary"><fa-icon [icon]="faSearch"></fa-icon></button>
+                    <button class="btn btn-primary" (click)="search()"><fa-icon [icon]="faSearch"></fa-icon></button>
                 </div>
             </div>
         </form>
@@ -29,7 +29,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a routerLink="/categories" class="nav-link">
+                <a routerLink="/events" class="nav-link">
                     <fa-icon [icon]="faMapMarked"></fa-icon>
                     Events
                 </a>
