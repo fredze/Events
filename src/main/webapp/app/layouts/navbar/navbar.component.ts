@@ -6,7 +6,7 @@ import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
 import { CartItem, CartService } from 'app/cart.service';
-import { faDolly } from '@fortawesome/free-solid-svg-icons';
+import { faDolly, faMapMarked, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'jhi-navbar',
@@ -22,6 +22,8 @@ export class NavbarComponent implements OnInit {
     version: string;
 
     faDolly = faDolly;
+    faSearch = faSearch;
+    faMapMarked = faMapMarked;
 
     constructor(
         private loginService: LoginService,
