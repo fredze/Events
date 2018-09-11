@@ -62,6 +62,8 @@ public class EventResource {
         return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
     }
 
+
+
     /**
      * POST  /events : Create a new event.
      *
