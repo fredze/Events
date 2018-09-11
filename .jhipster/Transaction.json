@@ -24,7 +24,11 @@
             "otherEntityRelationshipName": "transaction"
         }
     ],
+<<<<<<< HEAD
     "changelogDate": "20180911084315",
+=======
+    "changelogDate": "20180911115325",
+>>>>>>> 30e65a7e9ec1df897004b51c1c3ae7616f2accf0
     "entityTableName": "transaction",
     "dto": "no",
     "pagination": "no",
