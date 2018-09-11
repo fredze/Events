@@ -166,6 +166,34 @@
                     </li>
                 </ul>
             </li>
+            <li ngbDropdown class="nav-item dropdown pointer">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="cartnavBarDropdown">
+                    <span>
+                        <fa-icon [icon]="faDolly"></fa-icon>
+                        <span>({{getCartSize()}}) Cart</span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li>
+                        <a class="dropdown-item" routerLink="/cart">See cart</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" (click)="emptyCart()">Empty cart</a>
+                    </li>
+                    <li *ngFor="let c of cart">
+                        <div class="dropdown-item">
+                            <span>{{c.item.name}}</span>, <span>{{c.number}}*{{c.item.price}}</span>
+                            <button class="btn btn-sm btn-danger float-right py-0 px-1" (click)="removeCart($event, c)">X</button>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="dropdown-item">Total: {{total}}€</span>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a routerLink="/categories" class="nav-link">Categories</a>
+            </li>
         </ul>
     </div>
 </nav>

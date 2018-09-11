@@ -5,6 +5,8 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
+import { CartItem, CartService } from 'app/cart.service';
+import { faDolly } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'jhi-navbar',
@@ -19,12 +21,15 @@ export class NavbarComponent implements OnInit {
     modalRef: NgbModalRef;
     version: string;
 
+    faDolly = faDolly;
+
     constructor(
         private loginService: LoginService,
         private principal: Principal,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private cartService: CartService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -61,5 +66,29 @@ export class NavbarComponent implements OnInit {
 
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
+    }
+
+    getCartSize() {
+        return this.cartService.getCartSize();
+    }
+
+    emptyCart() {
+        const b = window.confirm('Are you sure you want to empty your cart?');
+        if (b) {
+            this.cartService.emptyCart();
+        }
+    }
+
+    get cart() {
+        return Array.from(this.cartService.products.values());
+    }
+
+    removeCart(event, e: CartItem) {
+        this.cartService.removeProduct(e);
+        event.stopPropagation();
+    }
+
+    cartTotalPrice(): number {
+        return this.cartService.cartTotalPrice();
     }
 }
