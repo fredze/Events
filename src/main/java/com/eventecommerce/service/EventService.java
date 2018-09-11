@@ -4,6 +4,8 @@ import com.eventecommerce.domain.Event;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -27,6 +29,16 @@ public interface EventService {
      * @return the list of entities
      */
     Page<Event> findAll(Pageable pageable);
+
+
+    /**
+     * Get all the events.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    @Query("SELECT p FROM Event p where p.name like :x")
+    Page<Event> findAllByName(@Param("x")String mc, Pageable pageable);
 
 
     /**

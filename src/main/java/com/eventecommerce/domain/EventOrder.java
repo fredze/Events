@@ -35,6 +35,13 @@ public class EventOrder implements Serializable {
     @Column(name = "state_event_order")
     private StateEventOrder stateEventOrder;
 
+    public EventOrder(Double totalPrice, LocalDate createAt, StateEventOrder stateEventOrder) {
+        this.totalPrice = totalPrice;
+        this.createAt = createAt;
+        this.stateEventOrder = stateEventOrder;
+    }
+
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

@@ -1,6 +1,5 @@
 package com.eventecommerce.repository;
 
-import com.eventecommerce.domain.Category;
 import com.eventecommerce.domain.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
