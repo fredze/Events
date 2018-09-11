@@ -35,6 +35,8 @@ public class EventOrder implements Serializable {
     @Column(name = "state_event_order")
     private StateEventOrder stateEventOrder;
 
+    public EventOrder() {
+    }
 
     public EventOrder(Double totalPrice, LocalDate createAt, StateEventOrder stateEventOrder) {
         this.totalPrice = totalPrice;
