@@ -34,11 +34,6 @@ entity EventOrder{
     stateEventOrder StateEventOrder
 }
 
-entity OtherPictures{
-	id Long,
-    name String
-}
-
 entity Transaction{
 	id Long,
     price Double,
@@ -70,10 +65,6 @@ relationship ManyToOne {
 
 relationship OneToOne {
 	Transaction{eventOrder} to EventOrder
-}
-
-relationship ManyToOne {
-	OtherPictures{event} to Event
 }
 
 //ination options
