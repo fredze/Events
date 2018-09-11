@@ -29,6 +29,7 @@ public interface EventService {
     Page<Event> findAll(Pageable pageable);
 
 
+    Page<Event> findByName(Pageable pageable);
     /**
      * Get the "id" event.
      *

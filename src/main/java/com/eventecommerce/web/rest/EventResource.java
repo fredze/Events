@@ -77,9 +77,10 @@ public class EventResource {
         @RequestParam(name="size", defaultValue = "5") int size,
         @RequestParam(name="page", defaultValue = "0") int page) {
 
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(null, "/api/events-by-name");
+        Page<Event> events = eventService.findByName("%"+mc+"%", PageRequest.of(page,size));
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
 
-        return new ResponseEntity<>(null, headers, HttpStatus.OK);
+        return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
     }
 
 
