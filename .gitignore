@@ -115,6 +115,7 @@ Desktop.ini
 ######################
 /bin/
 /deploy/
+.jhipster
 
 ######################
 # Logs
