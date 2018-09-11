@@ -1,6 +1,9 @@
+
+
+
 entity Category{
 	id Long,
-    nom String,
+    name String,
     description String
 }
 
@@ -15,6 +18,7 @@ entity Event{
     placeEvent String,
     description String,
     stateEvent StateEvent,
+    pricipalPicture String,
 }
 
 entity EventOrderLine{
@@ -28,19 +32,11 @@ entity EventOrder{
     totalPrice Double,
     createAt LocalDate,
     stateEventOrder StateEventOrder
-    
-}
-
-entity Picture{
-	id Long,
-    namePicture String,
-    description String
 }
 
 entity OtherPictures{
 	id Long,
-    name String,
-    description String
+    name String
 }
 
 entity Transaction{
@@ -49,8 +45,6 @@ entity Transaction{
     dateTransaction LocalDate,
     payment String
 }
-
-
 
 // List Enum
 enum StateEvent{
@@ -71,28 +65,24 @@ relationship ManyToOne{
 }
 
 relationship ManyToOne {
-	EventOrder{eventOrderLine} to EventOrderLine
+	EventOrderLine{eventOrder} to EventOrder
 }
 
-relationship OneToMany {
-	Event{transaction} to Transaction
+relationship OneToOne {
+	Transaction{eventOrder} to EventOrder
 }
 
-relationship OneToMany {
-	Picture{event} to Event
-}
-
-relationship OneToMany {
-	Event{otherPicture} to OtherPictures
+relationship ManyToOne {
+	OtherPictures{event} to Event
 }
 
 //ination options
 paginate EventOrder, Category with infinite-scroll
-paginate Event, Transaction with pagination
+paginate Event with pagination
 
 //dto * with mapstruct
 
 // Set service options to all except few
-//service all with serviceImpl except Employee, Job
+service all with serviceImpl except EventOrderLine, EventOrder, OtherPictures
 // Set an angular suffix
 //angularSuffix * with mySuffix
