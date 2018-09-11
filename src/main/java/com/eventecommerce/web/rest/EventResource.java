@@ -50,7 +50,7 @@ public class EventResource {
      * @param page
      * @return
      */
-    /*@GetMapping("/events-by-name")
+    @GetMapping("/events-by-name")
     @Timed
     public ResponseEntity<List<Event>> getAllEventsByName(
         @RequestParam(name="mc", defaultValue = "") String mc,
@@ -58,10 +58,10 @@ public class EventResource {
         @RequestParam(name="page", defaultValue = "0") int page) {
 
         log.debug("REST request to get a page of Events by name ");
-        Page<Event> events = eventRepository.findEventsByName("%"+mc+"%", PageRequest.of(page,size));
+        Page<Event> events = eventService.findAll(PageRequest.of(page,size));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
         return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
-    }*/
+    }
 
     /**
      *
@@ -70,7 +70,7 @@ public class EventResource {
      * @param page
      * @return
      */
-    @GetMapping("/events-by-name")
+    /*@GetMapping("/events-by-name")
     @Timed
     public ResponseEntity<List<Event>> getAllEventsByName(
         @RequestParam(name="mc", defaultValue = "") String mc,
@@ -79,10 +79,8 @@ public class EventResource {
 
         Page<Event> events = eventService.findByName("%"+mc+"%", PageRequest.of(page,size));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
-
-        return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
-    }
-
+        return new ResponseEntity<>(null, headers, HttpStatus.OK);
+    }*/
 
 
     /**
