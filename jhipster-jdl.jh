@@ -1,0 +1,98 @@
+entity Category{
+	id Long,
+    nom String,
+    description String
+}
+
+entity Event{
+	id Long,
+    name String,
+    price Double,
+    responsable String,
+    totalPlaces Integer,
+    availablePlaces Integer,
+    dateEvent LocalDate,
+    placeEvent String,
+    description String,
+    stateEvent StateEvent,
+}
+
+entity EventOrderLine{
+	id Long,
+    quantity Integer,
+    price Double,
+}
+
+entity EventOrder{
+	id Long,
+    totalPrice Double,
+    createAt LocalDate,
+    stateEventOrder StateEventOrder
+    
+}
+
+entity Picture{
+	id Long,
+    namePicture String,
+    description String
+}
+
+entity OtherPictures{
+	id Long,
+    name String,
+    description String
+}
+
+entity Transaction{
+	id Long,
+    price Double,
+    dateTransaction LocalDate,
+    payment String
+}
+
+
+
+// List Enum
+enum StateEvent{
+	AVAILABLE, UNAVAILABLE
+}
+enum StateEventOrder{
+	CONFIRMED, CANCELLED, INPROGRESS, WAITING
+}
+
+// RelationShip
+relationship ManyToOne{
+	Event{category} to Category
+}
+
+
+relationship ManyToOne{
+	EventOrderLine{event} to Event
+}
+
+relationship ManyToOne {
+	EventOrder{eventOrderLine} to EventOrderLine
+}
+
+relationship OneToMany {
+	Event{transaction} to Transaction
+}
+
+relationship OneToMany {
+	Picture{event} to Event
+}
+
+relationship OneToMany {
+	Event{otherPicture} to OtherPictures
+}
+
+//ination options
+paginate EventOrder, Category with infinite-scroll
+paginate Event, Transaction with pagination
+
+//dto * with mapstruct
+
+// Set service options to all except few
+//service all with serviceImpl except Employee, Job
+// Set an angular suffix
+//angularSuffix * with mySuffix
