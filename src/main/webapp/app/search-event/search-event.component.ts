@@ -3,6 +3,7 @@ import { EventService } from 'app/entities/event';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Event } from 'app/shared/model/event.model';
 import * as moment from 'moment';
+import { CartService } from '../cart/cart.service';
 
 @Component({
     selector: 'jhi-search-event',
@@ -14,7 +15,7 @@ export class SearchEventComponent implements OnInit {
     dateFrom: moment.Moment;
     dateTo: moment.Moment;
 
-    constructor(private eventService: EventService, private route: ActivatedRoute) {}
+    constructor(private cartService: CartService, private eventService: EventService, private route: ActivatedRoute) {}
 
     ngOnInit() {
         this.route.paramMap.subscribe(map => {
@@ -41,5 +42,9 @@ export class SearchEventComponent implements OnInit {
                 this.events = evs.body;
             });
         }
+    }
+
+    addToCart(p: Event): void {
+        this.cartService.addProduct(p);
     }
 }

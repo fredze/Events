@@ -10,7 +10,7 @@
                 <h5 class="card-title">{{e.name}}</h5>
                 <p class="card-text">{{e.description}}</p>
                 <a routerLink="/event/{{e.id}}" class="btn btn-primary">Details</a>
-                <button class="btn btn-success">Add to cart</button>
+                <button class="btn btn-success" (click)="addToCart(e)">Add to cart</button>
             </div>
             <div class="card-footer text-muted">
                 <span>{{e.availablePlaces}} places available</span>

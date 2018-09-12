@@ -68,6 +68,6 @@ export class CartService {
     }
 
     addOrder() {
-        this.eventOrderService.payOrder(this.products).subscribe();
+        return this.eventOrderService.payOrder(this.products);
     }
 }

@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
     faMapMarked = faMapMarked;
 
     dateEventFrom = moment();
-    dateEventTo = moment();
+    dateEventTo = moment().add(2, 'y');
 
     constructor(
         private loginService: LoginService,

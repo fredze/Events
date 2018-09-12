@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItem, CartService } from './cart.service';
+import { Principal } from '../core/auth/principal.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-cart',
@@ -9,7 +11,7 @@ import { CartItem, CartService } from './cart.service';
 export class CartComponent implements OnInit {
     products: CartItem[];
 
-    constructor(private cartService: CartService) {}
+    constructor(private cartService: CartService, private principal: Principal, private router: Router) {}
 
     ngOnInit() {
         this.refresh();
@@ -21,7 +23,9 @@ export class CartComponent implements OnInit {
     }
 
     payOrder() {
-        this.cartService.addOrder();
+        this.cartService.addOrder().subscribe(res => {
+            this.router.navigate(['/events']);
+        });
     }
 
     get total() {
@@ -30,5 +34,9 @@ export class CartComponent implements OnInit {
 
     private refresh(): void {
         this.products = Array.from(this.cartService.products.values());
+    }
+
+    isAuthenticated() {
+        return this.principal.isAuthenticated();
     }
 }
