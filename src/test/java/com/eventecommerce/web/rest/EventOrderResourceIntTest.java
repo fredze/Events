@@ -3,6 +3,7 @@ package com.eventecommerce.web.rest;
 import com.eventecommerce.EventsEcommerceApp;
 
 import com.eventecommerce.domain.EventOrder;
+import com.eventecommerce.repository.EventOrderLineRepository;
 import com.eventecommerce.repository.EventOrderRepository;
 import com.eventecommerce.web.rest.errors.ExceptionTranslator;
 
@@ -55,6 +56,9 @@ public class EventOrderResourceIntTest {
     private EventOrderRepository eventOrderRepository;
 
     @Autowired
+    private EventOrderLineRepository eventOrderLineRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -73,7 +77,7 @@ public class EventOrderResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final EventOrderResource eventOrderResource = new EventOrderResource(eventOrderRepository);
+        final EventOrderResource eventOrderResource = new EventOrderResource(eventOrderRepository, eventOrderLineRepository);
         this.restEventOrderMockMvc = MockMvcBuilders.standaloneSetup(eventOrderResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -154,7 +158,7 @@ public class EventOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createAt").value(hasItem(DEFAULT_CREATE_AT.toString())))
             .andExpect(jsonPath("$.[*].stateEventOrder").value(hasItem(DEFAULT_STATE_EVENT_ORDER.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getEventOrder() throws Exception {
