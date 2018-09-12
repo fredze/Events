@@ -8,6 +8,9 @@ import { ProfileService } from '../profiles/profile.service';
 import { CartItem, CartService } from '../../cart/cart.service';
 import { faDolly, faMapMarked, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { EventService } from 'app/entities/event';
+import { CartItem, CartService } from 'app/cart.service';
+import { faDolly, faMapMarked, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-navbar',
@@ -25,7 +28,11 @@ export class NavbarComponent implements OnInit {
 
     faDolly = faDolly;
     faSearch = faSearch;
+    faCog = faCog;
     faMapMarked = faMapMarked;
+
+    dateEventFrom = moment();
+    dateEventTo = moment();
 
     constructor(
         private loginService: LoginService,
@@ -33,8 +40,7 @@ export class NavbarComponent implements OnInit {
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router,
-        private cartService: CartService,
-        private eventService: EventService
+        private cartService: CartService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -98,7 +104,10 @@ export class NavbarComponent implements OnInit {
     }
 
     search(): void {
-        // this.eventService.search(this.searchText).subscribe(r => console.log(r));
         this.router.navigate(['/search-event', this.searchText]);
+    }
+
+    get total() {
+        return this.cartService.cartTotalPrice();
     }
 }
