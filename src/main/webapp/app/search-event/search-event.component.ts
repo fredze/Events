@@ -30,10 +30,12 @@ export class SearchEventComponent implements OnInit {
 
     searchEvents(name: string): void {
         if (this.dateFrom && this.dateTo) {
-            this.eventService.searchDate(name, this.dateFrom.format('YYYY-MM-DD'), this.dateTo.format('YYYY-MM-DD')).subscribe(evs => {
-                console.log(evs);
-                this.events = evs.body;
-            });
+            this.eventService
+                .searchDate(name.toLocaleUpperCase(), this.dateFrom.format('YYYY-MM-DD'), this.dateTo.format('YYYY-MM-DD'))
+                .subscribe(evs => {
+                    console.log(evs);
+                    this.events = evs.body;
+                });
         } else {
             this.eventService.search(name).subscribe(evs => {
                 this.events = evs.body;

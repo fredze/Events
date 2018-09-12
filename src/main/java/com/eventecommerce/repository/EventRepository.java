@@ -17,8 +17,11 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
+
     Page<Event> findByNameIgnoreCaseContaining(String name, Pageable p);
 
-    @Query("SELECT e FROM Event e WHERE e.name LIKE %:name% AND e.dateEvent > :dateFrom AND e.dateEvent < :dateTo")
+
+
+    @Query("SELECT e FROM Event e WHERE UPPER(e.name) LIKE %:name% AND e.dateEvent > :dateFrom AND e.dateEvent < :dateTo")
     Page<Event> findByNameDate(@Param("name") String name, @Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo, Pageable p);
 }
