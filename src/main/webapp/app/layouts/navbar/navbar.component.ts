@@ -98,7 +98,10 @@ export class NavbarComponent implements OnInit {
     }
 
     search(): void {
-        // this.eventService.search(this.searchText).subscribe(r => console.log(r));
         this.router.navigate(['/search-event', this.searchText]);
+    }
+
+    get total() {
+        return this.cartService.cartTotalPrice();
     }
 }
