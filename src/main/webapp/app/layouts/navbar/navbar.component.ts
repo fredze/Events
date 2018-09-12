@@ -80,7 +80,7 @@ export class NavbarComponent implements OnInit {
     }
 
     getCartSize() {
-        return this.cartService.getCartSize();
+        return this.cartService.getCartTotalSize();
     }
 
     emptyCart() {
@@ -91,12 +91,11 @@ export class NavbarComponent implements OnInit {
     }
 
     get cart() {
-        return Array.from(this.cartService.products.values());
+        return this.cartService.getProductsArray();
     }
 
-    removeCart(event, e: CartItem) {
+    removeCart(e: CartItem) {
         this.cartService.removeProduct(e);
-        event.stopPropagation();
     }
 
     cartTotalPrice(): number {

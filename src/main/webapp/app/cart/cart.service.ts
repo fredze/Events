@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../shared/model/event.model';
-import { HttpClient } from '@angular/common/http';
 import { EventOrderService } from '../entities/event-order/event-order.service';
 
 /**
@@ -52,8 +51,16 @@ export class CartService {
     /**
      * Returns the size of the cart.
      */
-    getCartSize(): number {
+    getCartProductsSize(): number {
         return this.products.size;
+    }
+
+    getCartTotalSize(): number {
+        return this.getProductsArray().reduce((acc, e) => acc + e.number, 0);
+    }
+
+    getProductsArray(): CartItem[] {
+        return Array.from(this.products.values());
     }
 
     /**

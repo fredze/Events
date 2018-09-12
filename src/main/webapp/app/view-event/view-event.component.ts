@@ -7,11 +7,11 @@ import { map } from 'rxjs/operators';
 import { CartService } from '../cart/cart.service';
 
 @Component({
-    selector: 'jhi-events',
-    templateUrl: './event.component.html',
+    selector: 'jhi-view-event',
+    templateUrl: './view-event.component.html',
     styles: []
 })
-export class EventComponent implements OnInit {
+export class ViewEventComponent implements OnInit {
     public event: IEvent;
 
     constructor(private cartService: CartService, private route: ActivatedRoute, private eventService: EventService) {}

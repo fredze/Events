@@ -6,19 +6,8 @@
             <h3>&bull; {{c.name}}</h3>
         </div>
 
-        <div class="col-3" *ngFor="let p of eventsArray(c.id)">
-            <div class="card">
-                <img class="card-img-top" [src]="p.picture" alt="Card image cap" *ngIf="p.picture">
-                <div class="card-body">
-                    <h5 class="card-title">[{{p.id}}] {{p.name}}</h5>
-                    <p class="card-text">{{p.description}}</p>
-                    <a routerLink="/view-event/{{p.id}}" class="btn btn-primary">Details</a>
-                    <button class="btn btn-success" (click)="addToCart(p)">Add to cart</button>
-                </div>
-                <div class="card-footer text-muted">
-                    <span>{{p.availablePlaces}} places available</span>
-                </div>
-            </div>
+        <div class="col-3" *ngFor="let e of eventsArray(c.id)">
+            <jhi-event [event]="e"></jhi-event>
         </div>
     </div>
 </ng-container>

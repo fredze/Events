@@ -21,9 +21,10 @@ import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 import { EventsComponent } from 'app/events/events.component';
-import { EventComponent } from 'app/event/event.component';
 import { CartComponent } from 'app/cart/cart.component';
 import { SearchEventComponent } from './search-event/search-event.component';
+import { ViewEventComponent } from 'app/view-event/view-event.component';
+import { EventComponent } from 'app/layouts/event/event.component';
 
 @NgModule({
     imports: [
@@ -44,6 +45,7 @@ import { SearchEventComponent } from './search-event/search-event.component';
         PageRibbonComponent,
         FooterComponent,
         EventsComponent,
+        ViewEventComponent,
         EventComponent,
         CartComponent,
         SearchEventComponent
