@@ -75,7 +75,7 @@ public class EventResourceIntTest {
 
     @Autowired
     private EventRepository eventRepository;
-    
+
     @Autowired
     private EventService eventService;
 
@@ -98,7 +98,7 @@ public class EventResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final EventResource eventResource = new EventResource(eventService);
+        final EventResource eventResource = new EventResource(eventService,null);
         this.restEventMockMvc = MockMvcBuilders.standaloneSetup(eventResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -200,7 +200,7 @@ public class EventResourceIntTest {
             .andExpect(jsonPath("$.[*].stateEvent").value(hasItem(DEFAULT_STATE_EVENT.toString())))
             .andExpect(jsonPath("$.[*].pricipalPicture").value(hasItem(DEFAULT_PRICIPAL_PICTURE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getEvent() throws Exception {

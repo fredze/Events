@@ -8,6 +8,8 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IEventOrder } from 'app/shared/model/event-order.model';
+import { IEventOrderLine, EventOrderLine } from '../../shared/model/event-order-line.model';
+import { CartItem } from '../../cart/cart.service';
 
 type EntityResponseType = HttpResponse<IEventOrder>;
 type EntityArrayResponseType = HttpResponse<IEventOrder[]>;
@@ -66,5 +68,23 @@ export class EventOrderService {
             eventOrder.createAt = eventOrder.createAt != null ? moment(eventOrder.createAt) : null;
         });
         return res;
+    }
+
+    payOrder(products: Map<number, CartItem>): Observable<EntityResponseType> {
+        var events = [];
+        products.forEach((value: CartItem, key: number) => {
+            let eventOrderLine = new EventOrderLine();
+            console.log(value);
+            eventOrderLine.id = null;
+            eventOrderLine.eventOrder = null;
+            eventOrderLine.price = value.item.price;
+            eventOrderLine.quantity = value.number;
+            eventOrderLine.event = value.item;
+            events.push(eventOrderLine);
+        });
+        console.log(events);
+        return this.http
+            .post(SERVER_API_URL + 'api/create-event-orders', events, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => res));
     }
 }

@@ -5,7 +5,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
-import { CartItem, CartService } from 'app/cart.service';
+import { CartItem, CartService } from '../../cart/cart.service';
 import { faDolly, faMapMarked, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { EventService } from 'app/entities/event';
 
