@@ -101,7 +101,14 @@ export class NavbarComponent implements OnInit {
     }
 
     search(): void {
-        this.router.navigate(['/search-event', this.searchText]);
+        console.log(this.dateEventFrom);
+        console.log(this.dateEventTo);
+        this.router.navigate([
+            '/search-event',
+            this.searchText,
+            this.dateEventFrom.format('YYYY-MM-DD'),
+            this.dateEventTo.format('YYYY-MM-DD')
+        ]);
     }
 
     get total() {

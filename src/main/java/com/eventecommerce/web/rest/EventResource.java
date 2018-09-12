@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -61,6 +62,25 @@ public class EventResource {
         log.debug("REST request to get a page of Events by name");
         Page<Event> events = eventRepository.findByNameIgnoreCaseContaining(name, PageRequest.of(page, size));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
+        return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/events-by-name-date")
+    @Timed
+    public ResponseEntity<List<Event>> getAllEventsByNameDate(
+        @RequestParam(name="name", defaultValue = "") String name,
+        @RequestParam(name="dateFrom") String dateFrom,
+        @RequestParam(name="dateTo") String dateTo,
+        @RequestParam(name="size", defaultValue = "5") int size,
+        @RequestParam(name="page", defaultValue = "0") int page) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+        log.debug("REST request to get a page of Events by name date " + dateFrom + " " + dateTo);
+        LocalDate ldFrom = LocalDate.parse(dateFrom, formatter);
+        LocalDate ldTo = LocalDate.parse(dateTo, formatter);
+        Page<Event> events = eventRepository.findByNameDate(name, ldFrom, ldTo, PageRequest.of(page, size));
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name-date");
         return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
     }
 
