@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CartItem, CartService } from 'app/cart.service';
+import { CartItem, CartService } from './cart.service';
 
 @Component({
     selector: 'jhi-cart',
@@ -9,7 +9,7 @@ import { CartItem, CartService } from 'app/cart.service';
 export class CartComponent implements OnInit {
     products: CartItem[];
 
-    constructor(public cartService: CartService) {}
+    constructor(private cartService: CartService) {}
 
     ngOnInit() {
         this.refresh();
@@ -18,6 +18,10 @@ export class CartComponent implements OnInit {
     removeProduct(p: CartItem) {
         this.cartService.removeProduct(p);
         this.refresh();
+    }
+
+    payOrder() {
+        this.cartService.addOrder();
     }
 
     get total() {

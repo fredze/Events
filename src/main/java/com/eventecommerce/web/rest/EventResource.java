@@ -84,25 +84,6 @@ public class EventResource {
         return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
     }
 
-    /**
-     *
-     * @param mc
-     * @param size
-     * @param page
-     * @return
-     */
-    /*@GetMapping("/events-by-name")
-    @Timed
-    public ResponseEntity<List<Event>> getAllEventsByName(
-        @RequestParam(name="mc", defaultValue = "") String mc,
-        @RequestParam(name="size", defaultValue = "5") int size,
-        @RequestParam(name="page", defaultValue = "0") int page) {
-
-        Page<Event> events = eventService.findByName("%"+mc+"%", PageRequest.of(page,size));
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
-        return new ResponseEntity<>(null, headers, HttpStatus.OK);
-    }*/
-
 
     /**
      * POST  /events : Create a new event.

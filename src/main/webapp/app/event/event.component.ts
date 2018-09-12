@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { CartService } from 'app/cart.service';
 import { EventService } from 'app/entities/event';
 import { IEvent } from 'app/shared/model/event.model';
 import { map } from 'rxjs/operators';
+import { CartService } from '../cart/cart.service';
 
 @Component({
     selector: 'jhi-events',

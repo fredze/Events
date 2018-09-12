@@ -43,8 +43,9 @@ public class EventOrderResource {
 
     private  EventOrderLineRepository eventOrderLineRepository;
 
-    public EventOrderResource(EventOrderRepository eventOrderRepository) {
+    public EventOrderResource(EventOrderRepository eventOrderRepository, EventOrderLineRepository eventOrderLineRepository) {
         this.eventOrderRepository = eventOrderRepository;
+        this.eventOrderLineRepository = eventOrderLineRepository;
     }
 
 
@@ -56,25 +57,25 @@ public class EventOrderResource {
      */
     @PostMapping("/create-event-orders")
     @Timed
-    public ResponseEntity<EventOrder> createEventOrderWithEventOrderLine(@RequestParam List<EventOrderLine> listEventOrderLine
+    public ResponseEntity<EventOrder> createEventOrderWithEventOrderLine(@RequestBody List<EventOrderLine> listEventOrderLine
     ) throws URISyntaxException {
+        log.debug("hello:"+listEventOrderLine.toString());
         Double totalPrice = 0.0;
         LocalDate date = LocalDate.now();
-
         for(EventOrderLine eLine : listEventOrderLine){
-            totalPrice =+ eLine.getPrice();
+            totalPrice = totalPrice + eLine.getPrice()*eLine.getQuantity();
         }
-
         EventOrder eventOrder = eventOrderRepository.save(new EventOrder(totalPrice,date,StateEventOrder.WAITING));
         for(EventOrderLine eLine : listEventOrderLine){
+            log.debug("orderLine :"+eLine.toString());
             eLine.setEventOrder(eventOrder);
             eventOrderLineRepository.save(eLine);
         }
 
-        log.debug("REST request to save EventOrder with listorderLine: {}", eventOrder);
+        /*log.debug("REST request to save EventOrder with listorderLine: {}", eventOrder);
         if (eventOrder.getId() != null) {
             throw new BadRequestAlertException("A new eventOrder cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+        }*/
         return ResponseEntity.created(new URI("/api/create-event-orders/" + eventOrder.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, eventOrder.getId().toString()))
             .body(eventOrder);

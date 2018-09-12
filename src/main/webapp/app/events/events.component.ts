@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'app/shared/model/category.model';
-import { CartService } from 'app/cart.service';
+import { CartService } from '../cart/cart.service';
 import { CategoryService } from 'app/entities/category';
 import { EventService } from 'app/entities/event';
 import { map, tap } from 'rxjs/operators';

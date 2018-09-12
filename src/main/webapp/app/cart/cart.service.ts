@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Event } from 'app/shared/model/event.model';
+import { Event } from '../shared/model/event.model';
+import { HttpClient } from '@angular/common/http';
+import { EventOrderService } from '../entities/event-order/event-order.service';
 
 /**
  * An item with the product and the number of times it is in the cart.
@@ -20,7 +22,7 @@ export class CartItem {
 export class CartService {
     products: Map<number, CartItem>; // key: product id, value: CartItem
 
-    constructor() {
+    constructor(private eventOrderService: EventOrderService) {
         this.products = new Map();
     }
 
@@ -63,5 +65,9 @@ export class CartService {
 
     cartTotalPrice(): number {
         return Array.from(this.products.values()).reduce((acc, cv) => acc + cv.number * cv.item.price, 0);
+    }
+
+    addOrder() {
+        this.eventOrderService.payOrder(this.products).subscribe();
     }
 }
