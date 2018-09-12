@@ -31,6 +31,9 @@ export class NavbarComponent implements OnInit {
     dateEventFrom = moment();
     dateEventTo = moment().add(2, 'y');
 
+    byDateEventFrom = false;
+    byDateEventTo = false;
+
     constructor(
         private loginService: LoginService,
         private principal: Principal,
@@ -101,14 +104,17 @@ export class NavbarComponent implements OnInit {
     }
 
     search(): void {
-        console.log(this.dateEventFrom);
-        console.log(this.dateEventTo);
-        this.router.navigate([
-            '/search-event',
-            this.searchText,
-            this.dateEventFrom.format('YYYY-MM-DD'),
-            this.dateEventTo.format('YYYY-MM-DD')
-        ]);
+        const qp = {};
+
+        if (this.byDateEventFrom) {
+            qp['dateFrom'] = this.dateEventFrom.format('YYYY-MM-DD');
+        }
+
+        if (this.byDateEventTo) {
+            qp['dateTo'] = this.dateEventTo.format('YYYY-MM-DD');
+        }
+
+        this.router.navigate(['/search-event', this.searchText], { queryParams: qp });
     }
 
     get total() {

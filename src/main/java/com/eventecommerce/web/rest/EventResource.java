@@ -46,43 +46,55 @@ public class EventResource {
         this.eventRepository = eventRepository;
     }
 
-    /**
-     *
-     * @param name
-     * @param size
-     * @param page
-     * @return
-     */
-    @GetMapping("/events-by-name")
+    @GetMapping("/events-search")
     @Timed
-    public ResponseEntity<List<Event>> getAllEventsByName(
+    public ResponseEntity<List<Event>> searchEvents(
         @RequestParam(name="name", defaultValue = "") String name,
-        @RequestParam(name="size", defaultValue = "5") int size,
-        @RequestParam(name="page", defaultValue = "0") int page) {
-
-        log.debug("REST request to get a page of Events by name");
-        Page<Event> events = eventRepository.findByNameIgnoreCaseContaining(name, PageRequest.of(page, size));
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name");
-        return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
-    }
-
-    @GetMapping("/events-by-name-date")
-    @Timed
-    public ResponseEntity<List<Event>> getAllEventsByNameDate(
-        @RequestParam(name="name", defaultValue = "") String name,
-        @RequestParam(name="dateFrom") String dateFrom,
-        @RequestParam(name="dateTo") String dateTo,
-        @RequestParam(name="size", defaultValue = "5") int size,
-        @RequestParam(name="page", defaultValue = "0") int page) {
-
+        @RequestParam(name="dateFrom", defaultValue = "") String dateFrom,
+        @RequestParam(name="dateTo", defaultValue = "") String dateTo,
+        Pageable pageable
+    ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        log.debug("REST request to get a page of Events by name date " + dateFrom + " " + dateTo);
-        LocalDate ldFrom = LocalDate.parse(dateFrom, formatter);
-        LocalDate ldTo = LocalDate.parse(dateTo, formatter);
-        Page<Event> events = eventRepository.findByNameDate(name, ldFrom, ldTo, PageRequest.of(page, size));
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(events, "/api/events-by-name-date");
-        return new ResponseEntity<>(events.getContent(), headers, HttpStatus.OK);
+        LocalDate ldFrom = null;
+        LocalDate ldTo = null;
+        Page<Event> items;
+
+        if (!dateFrom.isEmpty()) {
+            ldFrom = LocalDate.parse(dateFrom, formatter);
+        }
+
+        if (!dateTo.isEmpty()) {
+            ldTo = LocalDate.parse(dateTo, formatter);
+        }
+
+        if (name.isEmpty()) {
+            if (ldFrom != null && ldTo != null) {
+                items = eventRepository.findByDate(ldFrom, ldTo, pageable);
+            } else if (ldFrom != null) {
+                items = eventRepository.findByDateBegin(ldFrom, pageable);
+            } else if (ldTo != null) {
+                items = eventRepository.findByDateEnd(ldTo, pageable);
+            } else {
+                // Error
+                items = eventService.findAll(pageable);
+            }
+        } else {
+            String nName = name.toUpperCase();
+            if (ldFrom != null && ldTo != null) {
+                items = eventRepository.findByNameDate(nName, ldFrom, ldTo, pageable);
+            } else if (ldFrom != null) {
+                items = eventRepository.findByNameDateBegin(nName, ldFrom, pageable);
+            } else if (ldTo != null) {
+                items = eventRepository.findByNameDateEnd(nName, ldTo, pageable);
+            } else {
+                items = eventRepository.findByNameIgnoreCaseContaining(nName, pageable);
+            }
+        }
+
+        log.debug("REST request to get a page of Events by {} date " + dateFrom + " " + dateTo, name);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-by-name-date");
+        return new ResponseEntity<>(items.getContent(), headers, HttpStatus.OK);
     }
 
 

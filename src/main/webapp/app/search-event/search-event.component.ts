@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Event } from 'app/shared/model/event.model';
 import * as moment from 'moment';
 import { CartService } from '../cart/cart.service';
+import { Utils } from 'app/shared/util/utils';
 
 @Component({
     selector: 'jhi-search-event',
@@ -19,29 +20,37 @@ export class SearchEventComponent implements OnInit {
 
     ngOnInit() {
         this.route.paramMap.subscribe(map => {
-            console.log(map.get('dateFrom'));
-            console.log(map.get('dateTo'));
-            this.dateFrom = moment(map.get('dateFrom'));
-            this.dateTo = moment(map.get('dateTo'));
-            console.log(this.dateFrom);
-            console.log(this.dateTo);
-            this.searchEvents(map.get('name'));
+            this.route.queryParams.subscribe((params: any) => {
+                if (params.hasOwnProperty('dateFrom')) {
+                    this.dateFrom = moment(params.dateFrom);
+                }
+
+                if (params.hasOwnProperty('dateTo')) {
+                    this.dateTo = moment(params.dateTo);
+                }
+
+                this.searchEvents(map.get('name'));
+            });
         });
     }
 
     searchEvents(name: string): void {
-        if (this.dateFrom && this.dateTo) {
-            this.eventService
-                .searchDate(name.toLocaleUpperCase(), this.dateFrom.format('YYYY-MM-DD'), this.dateTo.format('YYYY-MM-DD'))
-                .subscribe(evs => {
-                    console.log(evs);
-                    this.events = evs.body;
-                });
-        } else {
-            this.eventService.search(name).subscribe(evs => {
-                this.events = evs.body;
-            });
+        const opt = {
+            name
+        };
+
+        if (this.dateFrom) {
+            opt['dateFrom'] = Utils.convertMomentToDate(this.dateFrom);
         }
+
+        if (this.dateTo) {
+            opt['dateTo'] = Utils.convertMomentToDate(this.dateTo);
+        }
+
+        this.eventService.search(opt).subscribe(evs => {
+            console.log(evs);
+            this.events = evs.body;
+        });
     }
 
     addToCart(p: Event): void {

@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IEvent } from 'app/shared/model/event.model';
+import { Utils } from 'app/shared/util/utils';
 
 type EntityResponseType = HttpResponse<IEvent>;
 type EntityArrayResponseType = HttpResponse<IEvent[]>;
@@ -38,27 +39,33 @@ export class EventService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    search(text: string): Observable<EntityArrayResponseType> {
-        const options = createRequestOption({
-            name: text,
-            size: 10,
-            page: 0
-        });
-        return this.http
-            .get<IEvent[]>('api/events-by-name', { params: options, observe: 'response' })
-            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    search(opt: any): Observable<EntityArrayResponseType> {
+        return this.sendReqTo(opt, `${this.resourceUrl}-search`);
     }
 
-    searchDate(text: string, dateFrom, dateTo): Observable<EntityArrayResponseType> {
-        const options = createRequestOption({
-            name: text,
-            dateFrom,
-            dateTo,
+    /*searchByDate(dateFrom: moment.Moment, dateTo: moment.Moment): Observable<EntityArrayResponseType> {
+        return this.sendReqTo({
+            dateFrom: Utils.convertMomentToDate(dateFrom),
+            dateTo: Utils.convertMomentToDate(dateTo),
             size: 10,
             page: 0
-        });
+        }, 'events-by-date');
+    }
+
+    searchWithDate(text: string, dateFrom: moment.Moment, dateTo: moment.Moment): Observable<EntityArrayResponseType> {
+        return this.sendReqTo({
+            name: text,
+            dateFrom: Utils.convertMomentToDate(dateFrom),
+            dateTo: Utils.convertMomentToDate(dateTo),
+            size: 10,
+            page: 0
+        }, 'events-by-name-date');
+    }*/
+
+    private sendReqTo(opt: any, path: string): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(opt);
         return this.http
-            .get<IEvent[]>('api/events-by-name-date', { params: options, observe: 'response' })
+            .get<IEvent[]>(path, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
