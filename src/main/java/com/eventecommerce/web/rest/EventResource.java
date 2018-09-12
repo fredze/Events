@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -74,7 +75,7 @@ public class EventResource {
         @RequestParam(name="size", defaultValue = "5") int size,
         @RequestParam(name="page", defaultValue = "0") int page) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
 
         log.debug("REST request to get a page of Events by name date " + dateFrom + " " + dateTo);
         LocalDate ldFrom = LocalDate.parse(dateFrom, formatter);
