@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { Event } from '../../shared/model/event.model';
+import { Component, Input } from '@angular/core';
+import { Event, StateEvent } from '../../shared/model/event.model';
 import { CartService } from '../../cart/cart.service';
-import { Input } from '@angular/core';
 import { faDolly } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -26,5 +25,9 @@ export class EventComponent {
 
     get qte(): number {
         return this.cartService.getCartEntry(this.event).number;
+    }
+
+    isAvailable(): boolean {
+        return this.event.availablePlaces > 0 && this.event.stateEvent === StateEvent.AVAILABLE;
     }
 }

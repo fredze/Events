@@ -11,9 +11,9 @@
 
         <ng-container [ngSwitch]="isInCart()">
             <div class="btn-group" *ngSwitchCase="false">
-                <button type="button" class="btn btn-success" (click)="addToCart()">Add to cart</button>
+                <button type="button" class="btn btn-success" (click)="addToCart()" [disabled]="!isAvailable()">Add to cart</button>
                 <div class="btn-group" ngbDropdown role="group">
-                    <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle></button>
+                    <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable()"></button>
                     <div class="dropdown-menu" ngbDropdownMenu>
                         <button class="dropdown-item" (click)="addToCart(2)">Add two tickets</button>
                         <button class="dropdown-item" (click)="addToCart(3)">Add three tickets</button>
@@ -21,9 +21,7 @@
                     </div>
                 </div>
             </div>
-
-            <!--<button class="btn btn-success" (click)="addToCart()" *ngSwitchCase="false">Add to cart</button>-->
-            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true">Add a ticket</button>
+            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable()">Add a ticket</button>
         </ng-container>
     </div>
     <div class="card-footer text-muted">
