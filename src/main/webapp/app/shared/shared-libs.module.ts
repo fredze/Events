@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
     imports: [
+        BrowserAnimationsModule,
         NgbModule.forRoot(),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
@@ -16,8 +19,20 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         }),
         InfiniteScrollModule,
         CookieModule.forRoot(),
-        FontAwesomeModule
+        FontAwesomeModule,
+        ToastrModule.forRoot({
+            positionClass: 'toast-bottom-right'
+        })
     ],
-    exports: [FormsModule, CommonModule, NgbModule, NgJhipsterModule, InfiniteScrollModule, FontAwesomeModule]
+    exports: [
+        FormsModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        NgJhipsterModule,
+        InfiniteScrollModule,
+        FontAwesomeModule,
+        ToastrModule
+    ]
 })
 export class EventsEcommerceSharedLibsModule {}

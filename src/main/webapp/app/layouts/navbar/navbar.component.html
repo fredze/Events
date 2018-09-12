@@ -60,7 +60,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a routerLink="/events" class="nav-link">
+                <a routerLink="/events" routerLinkActive="active" class="nav-link">
                     <fa-icon [icon]="faMapMarked"></fa-icon>
                     Events
                 </a>
@@ -213,7 +213,7 @@
                     </li>
                 </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown pointer" [autoClose]="false" placement="bottom-right">
+            <li ngbDropdown class="nav-item dropdown pointer" [autoClose]="false" placement="bottom-right" #cartDp="ngbDropdown">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="cartnavBarDropdown">
                     <span>
                         <fa-icon [icon]="faDolly"></fa-icon>
@@ -222,7 +222,7 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
-                        <a class="dropdown-item" routerLink="/cart">See cart</a>
+                        <a class="dropdown-item" routerLink="/cart" (click)="cartDp.close()">See cart</a>
                     </li>
                     <li>
                         <a class="dropdown-item" (click)="emptyCart()">Empty cart</a>
@@ -235,7 +235,7 @@
                                 <span>{{c.number}} x {{c.item.price}}€</span>
                             </span>
                             <span class="flex-fill"></span>
-                            <button class="btn btn-sm btn-danger py-0 px-1" (click)="removeCart(c)">X</button>
+                            <button class="btn btn-sm btn-danger py-0 px-2" (click)="removeCart(c)"><fa-icon [icon]="faTimes"></fa-icon></button>
                         </div>
                     </li>
                     <li>

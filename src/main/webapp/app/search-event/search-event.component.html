@@ -2,7 +2,21 @@
     {{events.length}} results!
 </p>
 
-<div class="row mb-1" *ngFor="let e of events">
+<!--<div class="row">
+    <div class="col">
+        <h4>Filter by price</h4>
+        <form class="form">
+            <dx-range-slider
+                [min]="min"
+                [max]="max"
+                [start]="range.start"
+                [end]="range.end">
+            </dx-range-slider>
+        </form>
+    </div>
+</div>-->
+
+<div class="row mb-1" *ngFor="let e of eventsFiltered">
     <div class="col">
         <jhi-event [event]="e"></jhi-event>
     </div>

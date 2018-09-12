@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from 'app/entities/event';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Event } from 'app/shared/model/event.model';
 import * as moment from 'moment';
 import { CartService } from '../cart/cart.service';
@@ -13,8 +13,18 @@ import { Utils } from 'app/shared/util/utils';
 })
 export class SearchEventComponent implements OnInit {
     events: Event[] = [];
+    eventsFiltered: Event[] = [];
+
     dateFrom: moment.Moment;
     dateTo: moment.Moment;
+
+    min = 0;
+    max = 100;
+
+    range = {
+        start: 20,
+        end: 60
+    };
 
     constructor(private cartService: CartService, private eventService: EventService, private route: ActivatedRoute) {}
 
@@ -50,10 +60,34 @@ export class SearchEventComponent implements OnInit {
         this.eventService.search(opt).subscribe(evs => {
             console.log(evs);
             this.events = evs.body;
+            this.eventsFiltered = this.events;
+            //this.calculateMinMax();
         });
     }
 
     addToCart(p: Event): void {
         this.cartService.addProduct(p);
+    }
+
+    calculateMinMax(): void {
+        this.max = 0;
+        this.min = this.events.length > 0 ? this.events[0].price : 0;
+        const ceil = 100;
+
+        this.events.forEach(e => {
+            const ep = Math.ceil(e.price / ceil) * ceil;
+
+            if (this.max < ep) {
+                this.max = ep;
+            }
+
+            if (this.min > e.price) {
+                this.min = e.price;
+            }
+        });
+    }
+
+    filter(): void {
+        this.eventsFiltered = this.events.filter(e => e.price >= this.min && e.price <= this.max);
     }
 }

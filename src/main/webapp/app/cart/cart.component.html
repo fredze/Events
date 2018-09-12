@@ -25,16 +25,24 @@
     </li>
 </ul>
 
-<div class="row">
+<div class="row" *ngIf="products.length > 0; else noProducts">
     <div class="col">
         <h4>Prix total = {{total}}€</h4>
         <ng-container [ngSwitch]="isAuthenticated()">
             <div *ngSwitchCase="false">
-                <button (click)="payOrder()">Login</button>
+                <button class="btn btn-primary btn-block" (click)="login()">Login</button>
             </div>
             <div *ngSwitchCase="true">
-                <button (click)="payOrder()">Payer</button>
+                <button class="btn btn-success btn-block" (click)="payOrder()">Payer</button>
             </div>
         </ng-container>
     </div>
 </div>
+
+<ng-template #noProducts>
+    <div class="row">
+        <div class="col">
+            <h2>No event in cart! Please add an event and come back!</h2>
+        </div>
+    </div>
+</ng-template>
