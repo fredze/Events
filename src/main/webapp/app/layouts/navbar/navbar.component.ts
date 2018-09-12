@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { faDolly, faMapMarked, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
 
 import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
-import { ProfileService } from '../profiles/profile.service';
-import { CartItem, CartService } from '../../cart/cart.service';
-import { faDolly, faMapMarked, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { EventService } from 'app/entities/event';
-import { CartItem, CartService } from 'app/cart.service';
-import { faDolly, faMapMarked, faSearch, faCog } from '@fortawesome/free-solid-svg-icons';
-import moment = require('moment');
+import { ProfileService } from 'app/layouts/profiles/profile.service';
+import { CartItem, CartService } from 'app/cart/cart.service';
 
 @Component({
     selector: 'jhi-navbar',
