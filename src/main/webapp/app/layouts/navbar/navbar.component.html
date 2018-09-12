@@ -11,9 +11,36 @@
     <div class="navbar-search">
         <form>
             <div class="input-group">
-                <input type="text" name="searchBar" placeholder="Search" class="form-control" [(ngModel)]="searchText">
+                <input type="text" name="searchBar" placeholder="Search" class="form-control" [(ngModel)]="searchText" (keyup.enter)="search()">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" (click)="search()"><fa-icon [icon]="faSearch"></fa-icon></button>
+                    <div class="btn-group">
+                        <div ngbDropdown class="btn-group" [autoClose]="false">
+                            <button class="btn btn-warning" id="dropdownBasic1" ngbDropdownToggle><fa-icon [icon]="faCog"></fa-icon></button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <form class="px-3 py-2">
+                                    <div class="form-group">
+                                        <label for="dateEventFrom">From</label>
+                                        <div class="input-group">
+                                            <input id="dateEventFrom" type="text" class="form-control" name="dateEventFrom" ngbDatepicker #dateEventDpFrom="ngbDatepicker" [(ngModel)]="dateEventFrom" />
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-secondary" (click)="dateEventDpFrom.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateEventTo">To</label>
+                                        <div class="input-group">
+                                            <input id="dateEventTo" type="text" class="form-control" name="dateEventTo" ngbDatepicker #dateEventDpTo="ngbDatepicker" [(ngModel)]="dateEventTo" />
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-secondary" (click)="dateEventDpTo.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" (click)="search()"><fa-icon [icon]="faSearch"></fa-icon></button>
+                    </div>
                 </div>
             </div>
         </form>
