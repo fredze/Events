@@ -71,18 +71,13 @@ export class EventOrderService {
     }
 
     payOrder(products: Map<number, CartItem>): Observable<EntityResponseType> {
-        var events = [];
-        products.forEach((value: CartItem, key: number) => {
-            let eventOrderLine = new EventOrderLine();
-            console.log(value);
-            eventOrderLine.id = null;
-            eventOrderLine.eventOrder = null;
-            eventOrderLine.price = value.item.price;
-            eventOrderLine.quantity = value.number;
-            eventOrderLine.event = value.item;
-            events.push(eventOrderLine);
-        });
-        console.log(events);
+        const events = Array.from(products.values()).map((cartItem: CartItem) => ({
+            id: null,
+            eventOrder: null,
+            price: cartItem.item.price,
+            quantity: cartItem.number,
+            event: cartItem.item
+        }));
         return this.http
             .post(SERVER_API_URL + 'api/create-event-orders', events, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => res));
