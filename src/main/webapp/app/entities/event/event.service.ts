@@ -52,8 +52,8 @@ export class EventService {
     searchDate(text: string, dateFrom, dateTo): Observable<EntityArrayResponseType> {
         const options = createRequestOption({
             name: text,
-            dateFrom: dateFrom,
-            dateTo: dateTo,
+            dateFrom,
+            dateTo,
             size: 10,
             page: 0
         });
