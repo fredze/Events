@@ -1,8 +1,11 @@
 package com.eventecommerce.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.eventecommerce.domain.Category;
 import com.eventecommerce.domain.Event;
+import com.eventecommerce.repository.CategoryRepository;
 import com.eventecommerce.repository.EventRepository;
+import com.eventecommerce.service.CategoryService;
 import com.eventecommerce.service.EventService;
 import com.eventecommerce.web.rest.errors.BadRequestAlertException;
 import com.eventecommerce.web.rest.util.HeaderUtil;
@@ -41,10 +44,32 @@ public class EventResource {
 
     private final EventService eventService;
     private EventRepository eventRepository;
+    private CategoryService categoryRepository;
 
     public EventResource(EventService eventService, EventRepository eventRepository) {
         this.eventService = eventService;
         this.eventRepository = eventRepository;
+    }
+
+
+    /**
+     * GET  /events-pages :  find events by category
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping("/events-category")
+    @Timed
+    public ResponseEntity<List<Event>> getEventsByCategory(
+        @RequestParam(name="cat") Long idcat,
+        @RequestParam(name="size", defaultValue = "4") int size,
+        @RequestParam(name="page",defaultValue = "0") int page
+    ) {
+
+        Page<Event> items = eventRepository.findByCategory(idcat,PageRequest.of(page,size));
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-category");
+        return new ResponseEntity<>(items.getContent(), headers, HttpStatus.OK);
     }
 
     /**
