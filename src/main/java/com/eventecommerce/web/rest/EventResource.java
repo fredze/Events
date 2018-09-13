@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,26 @@ public class EventResource {
         this.eventService = eventService;
         this.eventRepository = eventRepository;
     }
+
+    /**
+     * GET  /events-pages :  fetch last events
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping("/events-pages")
+    @Timed
+    public ResponseEntity<List<Event>> getEventsPaginate(
+        @RequestParam(name="page", defaultValue ="0" ) int page,
+        @RequestParam(name="size", defaultValue = "4") int size
+    ) {
+        Page<Event> items = eventRepository.findByNamePaginate(PageRequest.of(page,size));
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-pages");
+        return new ResponseEntity<>(items.getContent(), headers, HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/events-search")
     @Timed

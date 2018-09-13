@@ -36,4 +36,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e WHERE e.dateEvent < :dateTo")
     Page<Event> findByDateEnd(@Param("dateTo") LocalDate dateTo, Pageable p);
+
+    @Query("SELECT e FROM Event e ORDER BY e.dateEvent DESC")
+    Page<Event> findByNamePaginate(Pageable p);
 }
