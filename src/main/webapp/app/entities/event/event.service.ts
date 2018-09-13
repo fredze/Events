@@ -33,6 +33,15 @@ export class EventService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
+    byCategory(id: number): Observable<EntityArrayResponseType> {
+        const params = {
+            page: 0,
+            size: 10,
+            cat: id
+        };
+        return this.sendReqTo(params, `${this.resourceUrl}-category`);
+    }
+
     find(id: number): Observable<EntityResponseType> {
         return this.http
             .get<IEvent>(`${this.resourceUrl}/${id}`, { observe: 'response' })

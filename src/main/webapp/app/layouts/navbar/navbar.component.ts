@@ -8,6 +8,7 @@ import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { CartItem, CartService } from 'app/cart/cart.service';
+import { Utils } from 'app/shared/util/utils';
 
 @Component({
     selector: 'jhi-navbar',
@@ -107,11 +108,11 @@ export class NavbarComponent implements OnInit {
         const qp = {};
 
         if (this.byDateEventFrom) {
-            qp['dateFrom'] = this.dateEventFrom.format('YYYY-MM-DD');
+            qp['dateFrom'] = Utils.convertMomentToDate(this.dateEventFrom);
         }
 
         if (this.byDateEventTo) {
-            qp['dateTo'] = this.dateEventTo.format('YYYY-MM-DD');
+            qp['dateTo'] = Utils.convertMomentToDate(this.dateEventTo);
         }
 
         this.router.navigate(['/search-event', this.searchText], { queryParams: qp });
