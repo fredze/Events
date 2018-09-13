@@ -12,7 +12,7 @@ export class EventComponent implements OnInit {
     @Input() event: Event;
 
     private number;
-    private maxAdd;
+    maxAdd;
     private readonly threshold = 0.05;
 
     faDolly = faDolly;
