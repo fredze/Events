@@ -35,17 +35,17 @@
 
         <ng-container [ngSwitch]="isInCart()">
             <div class="btn-group" *ngSwitchCase="false">
-                <button type="button" class="btn btn-success" [disabled]="!isAvailable() || maxAdd < 1" (click)="addToCart()">Add to cart</button>
+                <button type="button" class="btn btn-success" [disabled]="!isAvailable() || maxAdd < 1" (click)="addToCart()">Add to cart ({{event.price}}€)</button>
                 <div class="btn-group" ngbDropdown role="group">
                     <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable() || maxAdd < 1"></button>
                     <div class="dropdown-menu" ngbDropdownMenu>
-                        <button class="dropdown-item" [disabled]="maxAdd < 2" (click)="addToCart(2)">Add two tickets</button>
-                        <button class="dropdown-item" [disabled]="maxAdd < 3" (click)="addToCart(3)">Add three tickets</button>
-                        <button class="dropdown-item" [disabled]="maxAdd < 4" (click)="addToCart(4)">Add four tickets</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 2" (click)="addToCart(2)">Add two tickets ({{event.price * 2}}€)</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 3" (click)="addToCart(3)">Add three tickets ({{event.price * 3}}€)</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 4" (click)="addToCart(4)">Add four tickets ({{event.price * 4}}€)</button>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable() || maxAdd < 1">Add a ticket</button>
+            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable() || maxAdd < 1">Add a ticket ({{event.price}}€)</button>
         </ng-container>
     </div>
 </div>
