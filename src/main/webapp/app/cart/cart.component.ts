@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginModalService } from 'app/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { CategoryService } from 'app/entities/category';
+import { Category } from 'app/shared/model/category.model';
+import { Event } from 'app/shared/model/event.model';
 
 @Component({
     selector: 'jhi-cart',
@@ -13,16 +16,20 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class CartComponent implements OnInit {
     products: CartItem[];
+    categories: Map<number, Category>;
 
     faTimes = faTimes;
 
     constructor(
         private cartService: CartService,
+        private categoryService: CategoryService,
         private principal: Principal,
         private loginModalService: LoginModalService,
         private toastr: ToastrService,
         private router: Router
-    ) {}
+    ) {
+        this.categories = new Map<number, Category>();
+    }
 
     ngOnInit() {
         this.refresh();
@@ -44,6 +51,10 @@ export class CartComponent implements OnInit {
 
     get total() {
         return this.cartService.cartTotalPrice();
+    }
+
+    getCategoryName(event: Event): string {
+        return event.category.name;
     }
 
     login(): void {

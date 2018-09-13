@@ -1,19 +1,20 @@
 <div class="card" *ngIf="event">
     <img class="card-img-top" [src]="event.picture" alt="Card image cap" *ngIf="event.picture">
-    <div class="card-body">
-        <h5 class="card-title" style="margin-bottom: 0.25rem;">
+    <div class="card-header">
+        <h5 class="card-title">
             {{event.name}}
             <small *ngIf="isInCart()"><fa-icon [icon]="faDolly"></fa-icon> x {{qte}}</small>
         </h5>
 
-        <h6>
-            <span
-                class="badge"
-                [ngClass]="{'AVAILABLE':'badge-success','UNAVAILABLE':'badge-danger'}[event.stateEvent]">
+        <h6 class="card-subtitle text-muted">{{event.dateEvent | amDateFormat:'LL'}}</h6>
+
+        <h6 *ngIf="event.stateEvent === 'UNAVAILABLE'" class="mb-0">
+            <span class="badge badge-danger">
                 {{event.stateEvent}}
             </span>
         </h6>
-
+    </div>
+    <div class="card-body">
         <p class="card-text">{{event.description}}</p>
 
         <ng-container *ngIf="showAvailablePlaces()">
