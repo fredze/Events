@@ -1,43 +1,38 @@
 <ng-container *ngIf="event">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a routerLink="/events">Events</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a routerLink="/view-category/{{event.category.id}}">{{event.category.name}}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{event.name}}</li>
+        </ol>
+    </nav>
     <div class="row">
-        <div class="col">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a routerLink="/events">Events</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a routerLink="/view-category/{{event.category.id}}">{{event.category.name}}</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">{{event.name}}</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-8">
             <h1>
-                [{{event.id}}] {{event.name}}
+                {{event.name}}
             </h1>
-            <span class="badge badge-danger" *ngIf="event.stateEvent === 'UNAVAILABLE'">
+            <div class="text-muted event-location">
+                <span>{{event.dateEvent | amDateFormat:'LLL'}}</span>
+                <span>{{event.placeEvent}}</span>
+            </div>
+            <div class="badge badge-danger" *ngIf="event.stateEvent === 'UNAVAILABLE'">
                 {{event.stateEvent}}
-            </span>
+            </div>
+            <article>
+                {{event.description}}
+            </article>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-3">
-            <!--<img [src]="event.picture" alt="Event image cap">-->
-            <p>{{event.description}}</p>
-        </div>
-        <div class="col-9">
-            <div>Located in {{event.placeEvent}}</div>
-            <div>{{event.price}}€</div>
+        <div class="col-12 col-md-4">
+            <img class="img-fluid" src="https://s3.eu-west-3.amazonaws.com/events-ecommerce-pictures/{{event.id}}.png" alt="Picture for the event {{event.name}}">
             <ng-container [ngSwitch]="isInCart()">
-                <div class="btn-group" *ngSwitchCase="false">
-                    <button type="button" class="btn btn-success" (click)="addToCart()" [disabled]="!isAvailable()">Add to cart</button>
-                    <div class="btn-group" ngbDropdown role="group">
-                        <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable()"></button>
+                <div class="btn-group w-100" *ngSwitchCase="false">
+                    <button type="button" class="btn btn-success btn-block" (click)="addToCart()" [disabled]="!isAvailable()">Add to cart</button>
+                    <div class="btn-group" ngbDropdown role="group" placement="top-right">
+                        <button class="btn btn-success dropdown-toggle-split btn-block" ngbDropdownToggle [disabled]="!isAvailable()"></button>
                         <div class="dropdown-menu" ngbDropdownMenu>
                             <button class="dropdown-item" (click)="addToCart(2)">Add two tickets</button>
                             <button class="dropdown-item" (click)="addToCart(3)">Add three tickets</button>
@@ -45,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable()">Add a ticket</button>
+                <button class="btn btn-outline-success btn-block" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable()">Add a ticket</button>
             </ng-container>
         </div>
     </div>

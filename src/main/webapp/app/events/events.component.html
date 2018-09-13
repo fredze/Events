@@ -6,7 +6,7 @@
             <h3>&bull; {{c.name}} <a routerLink="/view-category/{{c.id}}">more...</a></h3>
         </div>
 
-        <div class="col-3" *ngFor="let e of eventsArray(c.id)">
+        <div class="col-12 col-md-3" *ngFor="let e of eventsArray(c.id)">
             <jhi-event [event]="e"></jhi-event>
         </div>
     </div>
