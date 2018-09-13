@@ -32,17 +32,17 @@
 
         <ng-container [ngSwitch]="isInCart()">
             <div class="btn-group" *ngSwitchCase="false">
-                <button type="button" class="btn btn-success" [disabled]="canAddPlaces()" (click)="addToCart()" [disabled]="!isAvailable()">Add to cart</button>
+                <button type="button" class="btn btn-success" [disabled]="!isAvailable() || maxAdd < 1" (click)="addToCart()">Add to cart</button>
                 <div class="btn-group" ngbDropdown role="group">
-                    <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable()"></button>
+                    <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable() || maxAdd < 1"></button>
                     <div class="dropdown-menu" ngbDropdownMenu>
-                        <button class="dropdown-item" [disabled]="canAddPlaces(2)" (click)="addToCart(2)">Add two tickets</button>
-                        <button class="dropdown-item" [disabled]="canAddPlaces(3)" (click)="addToCart(3)">Add three tickets</button>
-                        <button class="dropdown-item" [disabled]="canAddPlaces(4)" (click)="addToCart(4)">Add four tickets</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 2" (click)="addToCart(2)">Add two tickets</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 3" (click)="addToCart(3)">Add three tickets</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 4" (click)="addToCart(4)">Add four tickets</button>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable()">Add a ticket</button>
+            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable() || maxAdd < 1">Add a ticket</button>
         </ng-container>
     </div>
 </div>

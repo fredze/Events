@@ -12,6 +12,7 @@ export class EventComponent implements OnInit {
     @Input() event: Event;
 
     private number;
+    private maxAdd;
     private readonly threshold = 0.05;
 
     faDolly = faDolly;
@@ -20,11 +21,13 @@ export class EventComponent implements OnInit {
 
     ngOnInit() {
         this.number = this.cartService.isInCart(this.event) ? this.cartService.getCartEntry(this.event).number : 0;
+        this.refresh();
     }
 
     addToCart(nb = 1): void {
         this.number += nb;
         this.cartService.addProduct(this.event, nb);
+        this.refresh();
     }
 
     isInCart(): boolean {
@@ -43,7 +46,7 @@ export class EventComponent implements OnInit {
         return this.event.availablePlaces < this.event.totalPlaces * this.threshold;
     }
 
-    canAddPlaces(n = 1): boolean {
-        return this.event.availablePlaces - this.number - n > 0;
+    refresh() {
+        this.maxAdd = this.event.availablePlaces - this.number;
     }
 }
