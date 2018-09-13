@@ -5,6 +5,7 @@ import com.eventecommerce.EventsEcommerceApp;
 import com.eventecommerce.domain.EventOrder;
 import com.eventecommerce.repository.EventOrderLineRepository;
 import com.eventecommerce.repository.EventOrderRepository;
+import com.eventecommerce.repository.EventRepository;
 import com.eventecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -56,6 +57,9 @@ public class EventOrderResourceIntTest {
     private EventOrderRepository eventOrderRepository;
 
     @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
     private EventOrderLineRepository eventOrderLineRepository;
 
     @Autowired
@@ -77,7 +81,7 @@ public class EventOrderResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final EventOrderResource eventOrderResource = new EventOrderResource(eventOrderRepository, eventOrderLineRepository);
+        final EventOrderResource eventOrderResource = new EventOrderResource(eventRepository,eventOrderRepository, eventOrderLineRepository);
         this.restEventOrderMockMvc = MockMvcBuilders.standaloneSetup(eventOrderResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
