@@ -1,30 +1,48 @@
 <div class="card" *ngIf="event">
     <img class="card-img-top" [src]="event.picture" alt="Card image cap" *ngIf="event.picture">
     <div class="card-body">
-        <h5 class="card-title">
+        <h5 class="card-title" style="margin-bottom: 0.25rem;">
             {{event.name}}
             <small *ngIf="isInCart()"><fa-icon [icon]="faDolly"></fa-icon> x {{qte}}</small>
         </h5>
 
+        <h6>
+            <span
+                class="badge"
+                [ngClass]="{'AVAILABLE':'badge-success','UNAVAILABLE':'badge-danger'}[event.stateEvent]">
+                {{event.stateEvent}}
+            </span>
+        </h6>
+
         <p class="card-text">{{event.description}}</p>
+
+        <ng-container *ngIf="showAvailablePlaces()">
+            <hr>
+
+            <ng-container [ngSwitch]="showAvailablePlaces()">
+                <span *ngSwitchCase="true" class="places-available text-danger">
+                    {{event.availablePlaces > 0 ? 'Only ' + event.availablePlaces + ' places available!' : 'No place available'}}
+                </span>
+                <span *ngSwitchCase="false">—</span>
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="card-footer text-muted">
         <a class="btn btn-primary" routerLink="/view-event/{{event.id}}">Details</a>
 
         <ng-container [ngSwitch]="isInCart()">
             <div class="btn-group" *ngSwitchCase="false">
-                <button type="button" class="btn btn-success" (click)="addToCart()" [disabled]="!isAvailable()">Add to cart</button>
+                <button type="button" class="btn btn-success" [disabled]="canAddPlaces()" (click)="addToCart()" [disabled]="!isAvailable()">Add to cart</button>
                 <div class="btn-group" ngbDropdown role="group">
                     <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable()"></button>
                     <div class="dropdown-menu" ngbDropdownMenu>
-                        <button class="dropdown-item" (click)="addToCart(2)">Add two tickets</button>
-                        <button class="dropdown-item" (click)="addToCart(3)">Add three tickets</button>
-                        <button class="dropdown-item" (click)="addToCart(4)">Add four tickets</button>
+                        <button class="dropdown-item" [disabled]="canAddPlaces(2)" (click)="addToCart(2)">Add two tickets</button>
+                        <button class="dropdown-item" [disabled]="canAddPlaces(3)" (click)="addToCart(3)">Add three tickets</button>
+                        <button class="dropdown-item" [disabled]="canAddPlaces(4)" (click)="addToCart(4)">Add four tickets</button>
                     </div>
                 </div>
             </div>
             <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable()">Add a ticket</button>
         </ng-container>
-    </div>
-    <div class="card-footer text-muted">
-        <span>{{event.availablePlaces}} places available</span>
     </div>
 </div>

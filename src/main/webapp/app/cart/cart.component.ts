@@ -4,6 +4,7 @@ import { Principal } from '../core/auth/principal.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginModalService } from 'app/core';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'jhi-cart',
@@ -12,6 +13,8 @@ import { LoginModalService } from 'app/core';
 })
 export class CartComponent implements OnInit {
     products: CartItem[];
+
+    faTimes = faTimes;
 
     constructor(
         private cartService: CartService,

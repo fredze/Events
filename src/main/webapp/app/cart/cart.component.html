@@ -4,7 +4,7 @@
 
         <div class="float-right">
             <form class="form-inline">
-                <div class="form-group mb-2">
+                <div class="form-group">
                     <label for="price" class="sr-only">Price</label>
                     <div class="input-group">
                         <input type="text" readonly class="form-control" id="price" [value]="p.item.price">
@@ -14,16 +14,18 @@
                     </div>
                 </div>
 
-                <div class="form-group mx-sm-3 mb-2">
+                <div class="form-group mx-sm-3">
                     <label for="number-{{p.id}}" class="sr-only">NB</label>
-                    <input type="number" min="1" max="100" step="1" class="form-control" id="number-{{p.id}}" name="number-{{p.id}}" [(ngModel)]="p.number">
+                    <input type="number" min="1" [max]="p.item.availablePlaces" step="1" class="form-control" id="number-{{p.id}}" name="number-{{p.id}}" [(ngModel)]="p.number">
                 </div>
 
-                <button class="btn btn-danger" (click)="removeProduct(p)">X</button>
+                <button class="btn btn-danger" (click)="removeProduct(p)"><fa-icon [icon]="faTimes"></fa-icon></button>
             </form>
         </div>
     </li>
 </ul>
+
+<hr>
 
 <div class="row" *ngIf="products.length > 0; else noProducts">
     <div class="col">
