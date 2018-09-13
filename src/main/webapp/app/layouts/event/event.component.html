@@ -6,7 +6,9 @@
             <small *ngIf="isInCart()"><fa-icon [icon]="faDolly"></fa-icon> x {{qte}}</small>
         </h5>
 
-        <h6 class="card-subtitle text-muted">{{event.dateEvent | amDateFormat:'LL'}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faCalendar"></fa-icon> {{event.dateEvent | amDateFormat:'LL'}}</h6>
+
+        <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faMapMarker"></fa-icon> {{event.placeEvent}}</h6>
 
         <h6 *ngIf="event.stateEvent === 'UNAVAILABLE'" class="mb-0">
             <span class="badge badge-danger">

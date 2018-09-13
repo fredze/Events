@@ -58,7 +58,6 @@ export class SearchEventComponent implements OnInit {
         }
 
         this.eventService.search(opt).subscribe(evs => {
-            console.log(evs);
             this.events = evs.body;
             this.eventsFiltered = this.events;
             this.calculateMinMax();
