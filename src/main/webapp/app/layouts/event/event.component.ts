@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Event, StateEvent } from '../../shared/model/event.model';
 import { CartService } from '../../cart/cart.service';
-import { faDolly } from '@fortawesome/free-solid-svg-icons';
+import { faDolly, faCalendar, faMapMarker } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'jhi-event',
@@ -12,10 +12,12 @@ export class EventComponent implements OnInit {
     @Input() event: Event;
 
     private number;
-    private maxAdd;
+    maxAdd;
     private readonly threshold = 0.05;
 
     faDolly = faDolly;
+    faCalendar = faCalendar;
+    faMapMarker = faMapMarker;
 
     constructor(private cartService: CartService) {}
 

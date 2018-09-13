@@ -58,7 +58,6 @@ export class SearchEventComponent implements OnInit {
         }
 
         this.eventService.search(opt).subscribe(evs => {
-            console.log(evs);
             this.events = evs.body;
             this.eventsFiltered = this.events;
             this.calculateMinMax();
@@ -70,9 +69,9 @@ export class SearchEventComponent implements OnInit {
     }
 
     calculateMinMax(): void {
-        this.max = 0;
         this.min = this.events.length > 0 ? this.events[0].price : 0;
-        const ceil = 100;
+        this.max = this.min;
+        const ceil = 50;
 
         this.events.forEach(e => {
             const ep = Math.ceil(e.price / ceil) * ceil;
@@ -85,9 +84,11 @@ export class SearchEventComponent implements OnInit {
                 this.min = e.price;
             }
         });
+
+        this.range = { start: this.min, end: this.max };
     }
 
     filter(): void {
-        this.eventsFiltered = this.events.filter(e => e.price >= this.min && e.price <= this.max);
+        this.eventsFiltered = this.events.filter(e => e.price >= this.range.start && e.price <= this.range.end);
     }
 }
