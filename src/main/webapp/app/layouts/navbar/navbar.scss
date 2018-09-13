@@ -62,6 +62,11 @@ Navbar
 
 .navbar-search {
     flex-grow: 1;
+
+    .no-border-radius-left {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+    }
 }
 
 #navbarResponsive {

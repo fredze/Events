@@ -51,7 +51,6 @@ public class EventResource {
         this.eventRepository = eventRepository;
     }
 
-
     /**
      * GET  /events-pages :  find events by category
      * @param page
@@ -62,14 +61,22 @@ public class EventResource {
     @Timed
     public ResponseEntity<List<Event>> getEventsByCategory(
         @RequestParam(name="cat") Long idcat,
-        @RequestParam(name="size", defaultValue = "4") int size,
-        @RequestParam(name="page",defaultValue = "0") int page
+        Pageable pageable
     ) {
-
-        Page<Event> items = eventRepository.findByCategory(idcat,PageRequest.of(page,size));
+        Page<Event> items = eventRepository.findByCategory(idcat, pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-category");
         return new ResponseEntity<>(items.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("events-category-count")
+    public ResponseEntity<Integer> countEventsByCategory(
+        @RequestParam(name="id") Long idcat
+    ) {
+        Integer count = eventRepository.countByCategory(idcat);
+
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-category");
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
     /**
@@ -81,16 +88,14 @@ public class EventResource {
     @GetMapping("/events-pages")
     @Timed
     public ResponseEntity<List<Event>> getEventsPaginate(
-        @RequestParam(name="page", defaultValue ="0" ) int page,
+        @RequestParam(name="page", defaultValue = "0") int page,
         @RequestParam(name="size", defaultValue = "4") int size
     ) {
-        Page<Event> items = eventRepository.findByNamePaginate(PageRequest.of(page,size));
+        Page<Event> items = eventRepository.findByNamePaginate(PageRequest.of(page, size));
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-pages");
         return new ResponseEntity<>(items.getContent(), headers, HttpStatus.OK);
     }
-
-
 
     @GetMapping("/events-search")
     @Timed
@@ -142,7 +147,6 @@ public class EventResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(items, "/api/events-by-name-date");
         return new ResponseEntity<>(items.getContent(), headers, HttpStatus.OK);
     }
-
 
     /**
      * POST  /events : Create a new event.

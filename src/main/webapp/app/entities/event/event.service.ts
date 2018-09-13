@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IEvent } from 'app/shared/model/event.model';
-import { Utils } from 'app/shared/util/utils';
 
 type EntityResponseType = HttpResponse<IEvent>;
 type EntityArrayResponseType = HttpResponse<IEvent[]>;
@@ -33,13 +32,18 @@ export class EventService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    byCategory(id: number): Observable<EntityArrayResponseType> {
+    byCategory(id: number, page = 0, size = 10): Observable<EntityArrayResponseType> {
         const params = {
-            page: 0,
-            size: 10,
+            page,
+            size,
             cat: id
         };
         return this.sendReqTo(params, `${this.resourceUrl}-category`);
+    }
+
+    countByCategory(id: number): Observable<Number> {
+        const params = createRequestOption({ id });
+        return this.http.get<Number>(`${this.resourceUrl}-category-count`, { params });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -52,32 +56,6 @@ export class EventService {
         return this.sendReqTo(opt, `${this.resourceUrl}-search`);
     }
 
-    /*searchByDate(dateFrom: moment.Moment, dateTo: moment.Moment): Observable<EntityArrayResponseType> {
-        return this.sendReqTo({
-            dateFrom: Utils.convertMomentToDate(dateFrom),
-            dateTo: Utils.convertMomentToDate(dateTo),
-            size: 10,
-            page: 0
-        }, 'events-by-date');
-    }
-
-    searchWithDate(text: string, dateFrom: moment.Moment, dateTo: moment.Moment): Observable<EntityArrayResponseType> {
-        return this.sendReqTo({
-            name: text,
-            dateFrom: Utils.convertMomentToDate(dateFrom),
-            dateTo: Utils.convertMomentToDate(dateTo),
-            size: 10,
-            page: 0
-        }, 'events-by-name-date');
-    }*/
-
-    private sendReqTo(opt: any, path: string): Observable<EntityArrayResponseType> {
-        const options = createRequestOption(opt);
-        return this.http
-            .get<IEvent[]>(path, { params: options, observe: 'response' })
-            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
-    }
-
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
@@ -87,6 +65,13 @@ export class EventService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    private sendReqTo(opt: any, path: string): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(opt);
+        return this.http
+            .get<IEvent[]>(path, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
     private convertDateFromClient(event: IEvent): IEvent {

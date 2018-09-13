@@ -41,6 +41,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT e FROM Event e ORDER BY e.dateEvent DESC")
     Page<Event> findByNamePaginate(Pageable p);
 
-    @Query("SELECT e FROM  Event e INNER join e.category c WHERE c.id =:idcat")
+    @Query("SELECT e FROM Event e INNER join e.category c WHERE c.id = :idcat")
     Page<Event> findByCategory(@Param("idcat") Long idcat, Pageable p);
+
+    @Query("SELECT COUNT(e) FROM Event e INNER join e.category c WHERE c.id = :idcat")
+    Integer countByCategory(@Param("idcat") Long idcat);
 }

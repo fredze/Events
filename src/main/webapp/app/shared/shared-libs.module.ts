@@ -9,6 +9,7 @@ import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { MomentModule } from 'ngx-moment';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { MomentModule } from 'ngx-moment';
         ToastrModule.forRoot({
             positionClass: 'toast-bottom-right'
         }),
-        MomentModule
+        MomentModule,
+        NgSelectModule
     ],
     exports: [
         FormsModule,
@@ -35,7 +37,8 @@ import { MomentModule } from 'ngx-moment';
         InfiniteScrollModule,
         FontAwesomeModule,
         ToastrModule,
-        MomentModule
+        MomentModule,
+        NgSelectModule
     ]
 })
 export class EventsEcommerceSharedLibsModule {}

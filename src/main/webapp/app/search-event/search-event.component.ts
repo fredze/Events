@@ -64,10 +64,6 @@ export class SearchEventComponent implements OnInit {
         });
     }
 
-    addToCart(p: Event): void {
-        this.cartService.addProduct(p);
-    }
-
     calculateMinMax(): void {
         this.min = this.events.length > 0 ? this.events[0].price : 0;
         this.max = this.min;
