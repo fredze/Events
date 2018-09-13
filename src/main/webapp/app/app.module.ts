@@ -25,6 +25,7 @@ import { CartComponent } from 'app/cart/cart.component';
 import { SearchEventComponent } from './search-event/search-event.component';
 import { ViewEventComponent } from 'app/view-event/view-event.component';
 import { EventComponent } from 'app/layouts/event/event.component';
+import { ViewCategoryComponent } from './view-category/view-category.component';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { EventComponent } from 'app/layouts/event/event.component';
         ViewEventComponent,
         EventComponent,
         CartComponent,
-        SearchEventComponent
+        SearchEventComponent,
+        ViewCategoryComponent
     ],
     providers: [
         {

@@ -1,6 +1,6 @@
 <ul class="list-group">
     <li *ngFor="let p of products" class="list-group-item">
-        [{{p.item.id}}] {{p.item.name}}
+        {{p.item.name}} ({{getCategoryName(p.item)}})
 
         <div class="float-right">
             <form class="form-inline">

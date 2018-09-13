@@ -8,6 +8,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { ToastrModule } from 'ngx-toastr';
         FontAwesomeModule,
         ToastrModule.forRoot({
             positionClass: 'toast-bottom-right'
-        })
+        }),
+        MomentModule
     ],
     exports: [
         FormsModule,
@@ -32,7 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
         NgJhipsterModule,
         InfiniteScrollModule,
         FontAwesomeModule,
-        ToastrModule
+        ToastrModule,
+        MomentModule
     ]
 })
 export class EventsEcommerceSharedLibsModule {}
