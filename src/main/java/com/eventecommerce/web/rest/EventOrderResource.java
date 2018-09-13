@@ -1,11 +1,13 @@
 package com.eventecommerce.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.eventecommerce.domain.Event;
 import com.eventecommerce.domain.EventOrder;
 import com.eventecommerce.domain.EventOrderLine;
 import com.eventecommerce.domain.enumeration.StateEventOrder;
 import com.eventecommerce.repository.EventOrderLineRepository;
 import com.eventecommerce.repository.EventOrderRepository;
+import com.eventecommerce.repository.EventRepository;
 import com.eventecommerce.service.EventService;
 import com.eventecommerce.web.rest.errors.BadRequestAlertException;
 import com.eventecommerce.web.rest.util.HeaderUtil;
@@ -43,9 +45,12 @@ public class EventOrderResource {
 
     private  EventOrderLineRepository eventOrderLineRepository;
 
-    public EventOrderResource(EventOrderRepository eventOrderRepository, EventOrderLineRepository eventOrderLineRepository) {
+    private EventRepository eventRepository;
+
+    public EventOrderResource(EventRepository eventRepository, EventOrderRepository eventOrderRepository, EventOrderLineRepository eventOrderLineRepository) {
         this.eventOrderRepository = eventOrderRepository;
         this.eventOrderLineRepository = eventOrderLineRepository;
+        this.eventRepository = eventRepository;
     }
 
 
@@ -65,9 +70,13 @@ public class EventOrderResource {
         for(EventOrderLine eLine : listEventOrderLine){
             totalPrice = totalPrice + eLine.getPrice()*eLine.getQuantity();
         }
+        Event event = null;
         EventOrder eventOrder = eventOrderRepository.save(new EventOrder(totalPrice,date,StateEventOrder.WAITING));
         for(EventOrderLine eLine : listEventOrderLine){
             log.debug("orderLine :"+eLine.toString());
+            event = eLine.getEvent();
+            event.setAvailablePlaces(event.getAvailablePlaces() - eLine.getQuantity());
+            eventRepository.save(event);
             eLine.setEventOrder(eventOrder);
             eventOrderLineRepository.save(eLine);
         }

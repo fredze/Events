@@ -25,7 +25,7 @@
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stateEvent"><span>State Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="pricipalPicture"><span>Pricipal Picture</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="category.id"><span>Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="category.name"><span>Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -44,7 +44,7 @@
                 <td>{{event.pricipalPicture}}</td>
                 <td>
                     <div *ngIf="event.category">
-                        <a [routerLink]="['../category', event.category?.id, 'view' ]" >{{event.category?.id}}</a>
+                        <a [routerLink]="['../category', event.category?.name, 'view' ]" >{{event.category?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">
