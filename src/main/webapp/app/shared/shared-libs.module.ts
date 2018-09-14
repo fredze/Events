@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -13,7 +12,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
-        BrowserAnimationsModule,
         NgbModule.forRoot(),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
@@ -31,7 +29,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     exports: [
         FormsModule,
         CommonModule,
-        BrowserAnimationsModule,
         NgbModule,
         NgJhipsterModule,
         InfiniteScrollModule,
