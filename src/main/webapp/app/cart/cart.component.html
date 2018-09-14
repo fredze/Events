@@ -1,40 +1,104 @@
-<ul class="list-group">
-    <li *ngFor="let p of products" class="list-group-item">
-        [{{p.item.id}}] {{p.item.name}}
+<div *ngIf="products.length > 0; else noProducts">
+    <ul class="list-group">
+        <li *ngFor="let p of products" class="list-group-item">
+            {{p.item.name}} ({{getCategoryName(p.item)}})
 
-        <div class="float-right">
-            <form class="form-inline">
-                <div class="form-group mb-2">
-                    <label for="price" class="sr-only">Price</label>
-                    <div class="input-group">
-                        <input type="text" readonly class="form-control" id="price" [value]="p.item.price">
-                        <div class="input-group-append">
-                            <div class="input-group-text">€</div>
+            <div class="float-right">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="price" class="sr-only">Price</label>
+                        <div class="input-group">
+                            <input type="text" readonly class="form-control" id="price" [value]="p.item.price">
+                            <div class="input-group-append">
+                                <div class="input-group-text">€</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="number-{{p.id}}" class="sr-only">NB</label>
-                    <input type="number" min="1" max="100" step="1" class="form-control" id="number-{{p.id}}" name="number-{{p.id}}" [(ngModel)]="p.number">
-                </div>
+                    <div class="form-group mx-sm-3">
+                        <label for="number-{{p.id}}" class="sr-only">NB</label>
+                        <input type="number" min="1" [max]="p.item.availablePlaces" step="1" class="form-control" id="number-{{p.id}}" name="number-{{p.id}}" [(ngModel)]="p.number">
+                    </div>
 
-                <button class="btn btn-danger" (click)="removeProduct(p)">X</button>
-            </form>
+                    <button class="btn btn-danger" (click)="removeProduct(p)"><fa-icon [icon]="faTimes"></fa-icon></button>
+                </form>
+            </div>
+        </li>
+    </ul>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h4>Prix total = {{total}}€</h4>
+            <ng-container [ngSwitch]="isAuthenticated()">
+                <div *ngSwitchCase="false">
+                    <button class="btn btn-primary btn-block" (click)="login()">Login</button>
+                </div>
+                <div *ngSwitchCase="true">
+                    <button class="btn btn-success" (click)="enterPaymentInfo(paymentInfo)">Pay by Credit Card</button>
+                    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                </div>
+            </ng-container>
         </div>
-    </li>
-</ul>
-
-<div class="row">
-    <div class="col">
-        <h4>Prix total = {{total}}€</h4>
-        <ng-container [ngSwitch]="isAuthenticated()">
-            <div *ngSwitchCase="false">
-                <button (click)="payOrder()">Login</button>
-            </div>
-            <div *ngSwitchCase="true">
-                <button (click)="payOrder()">Payer</button>
-            </div>
-        </ng-container>
     </div>
 </div>
+
+<ng-template #noProducts>
+    <div class="row">
+        <div class="col text-center">
+            <h3>Your cart is empty! Please add an event and come back!</h3>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #paymentInfo let-modal>
+        <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Payment by Credit Card</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+    <div class = "modal-body">
+    <form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Email</label>
+            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">Address</label>
+          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="form-group">
+          <label for="creditcardnumbers">Address 2</label>
+          <input type="text" class="form-control" id="inputCreditCardNumbers2" placeholder="Enter the 16 numbers of your credit card">
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">City</label>
+            <input type="text" class="form-control" id="inputCity">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="expiryDay">Expiry Day</label>
+            <select id="expiryDay" class="form-control">
+              <option *ngFor="let t of generateDay()">{{t}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+                <label for="expiryMonth">Expiry Month</label>
+                <select id="expiryMonth" class="form-control">    
+                  <option *ngFor="let i of generateMonth()">{{i}}</option>
+                </select>
+              </div>
+          <div class="form-group col-md-2">
+            <label for="crypto">Crypto</label>
+            <input type="text" class="form-control" id="inputCrypto">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-block" (click)="payOrderCC(modal)">Pay</button>
+    </form>   
+    </div>   
+</ng-template>

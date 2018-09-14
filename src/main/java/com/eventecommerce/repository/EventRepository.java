@@ -1,5 +1,6 @@
 package com.eventecommerce.repository;
 
+import com.eventecommerce.domain.Category;
 import com.eventecommerce.domain.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +18,32 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-
     Page<Event> findByNameIgnoreCaseContaining(String name, Pageable p);
-
-
 
     @Query("SELECT e FROM Event e WHERE UPPER(e.name) LIKE %:name% AND e.dateEvent > :dateFrom AND e.dateEvent < :dateTo")
     Page<Event> findByNameDate(@Param("name") String name, @Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo, Pageable p);
+
+    @Query("SELECT e FROM Event e WHERE UPPER(e.name) LIKE %:name% AND e.dateEvent > :dateFrom")
+    Page<Event> findByNameDateBegin(@Param("name") String name, @Param("dateFrom") LocalDate dateFrom, Pageable p);
+
+    @Query("SELECT e FROM Event e WHERE UPPER(e.name) LIKE %:name% AND e.dateEvent < :dateTo")
+    Page<Event> findByNameDateEnd(@Param("name") String name, @Param("dateTo") LocalDate dateTo, Pageable p);
+
+    @Query("SELECT e FROM Event e WHERE e.dateEvent > :dateFrom AND e.dateEvent < :dateTo")
+    Page<Event> findByDate(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo, Pageable p);
+
+    @Query("SELECT e FROM Event e WHERE e.dateEvent > :dateFrom")
+    Page<Event> findByDateBegin(@Param("dateFrom") LocalDate dateFrom, Pageable p);
+
+    @Query("SELECT e FROM Event e WHERE e.dateEvent < :dateTo")
+    Page<Event> findByDateEnd(@Param("dateTo") LocalDate dateTo, Pageable p);
+
+    @Query("SELECT e FROM Event e ORDER BY e.dateEvent DESC")
+    Page<Event> findByNamePaginate(Pageable p);
+
+    @Query("SELECT e FROM Event e INNER join e.category c WHERE c.id = :idcat")
+    Page<Event> findByCategory(@Param("idcat") Long idcat, Pageable p);
+
+    @Query("SELECT COUNT(e) FROM Event e INNER join e.category c WHERE c.id = :idcat")
+    Integer countByCategory(@Param("idcat") Long idcat);
 }

@@ -3,9 +3,10 @@ import { RouterModule } from '@angular/router';
 import { errorRoute, navbarRoute } from './layouts';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { EVENTS_ROUTE } from 'app/events/events.route';
-import { EVENT_ROUTE } from 'app/event/event.route';
 import { CART_ROUTE } from 'app/cart/cart.route';
 import { SEARCH_EVENT_ROUTE } from 'app/search-event/search-event.route';
+import { VIEW_EVENT_ROUTE } from 'app/view-event/view-event.route';
+import { VIEW_CATEGORY_ROUTE } from 'app/view-category/view-category.route';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -14,7 +15,8 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         RouterModule.forRoot(
             [
                 EVENTS_ROUTE,
-                EVENT_ROUTE,
+                VIEW_EVENT_ROUTE,
+                VIEW_CATEGORY_ROUTE,
                 CART_ROUTE,
                 SEARCH_EVENT_ROUTE,
                 ...LAYOUT_ROUTES,

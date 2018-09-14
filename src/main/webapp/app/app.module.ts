@@ -21,9 +21,12 @@ import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 import { EventsComponent } from 'app/events/events.component';
-import { EventComponent } from 'app/event/event.component';
 import { CartComponent } from 'app/cart/cart.component';
 import { SearchEventComponent } from './search-event/search-event.component';
+import { ViewEventComponent } from 'app/view-event/view-event.component';
+import { EventComponent } from 'app/layouts/event/event.component';
+import { ViewCategoryComponent } from './view-category/view-category.component';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
     imports: [
@@ -34,7 +37,8 @@ import { SearchEventComponent } from './search-event/search-event.component';
         EventsEcommerceCoreModule,
         EventsEcommerceHomeModule,
         EventsEcommerceAccountModule,
-        EventsEcommerceEntityModule
+        EventsEcommerceEntityModule,
+        NgxPayPalModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
@@ -44,9 +48,11 @@ import { SearchEventComponent } from './search-event/search-event.component';
         PageRibbonComponent,
         FooterComponent,
         EventsComponent,
+        ViewEventComponent,
         EventComponent,
         CartComponent,
-        SearchEventComponent
+        SearchEventComponent,
+        ViewCategoryComponent
     ],
     providers: [
         {

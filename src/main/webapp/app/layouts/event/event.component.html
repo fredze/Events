@@ -1,0 +1,51 @@
+<div class="card" *ngIf="event">
+    <img class="card-img-top" [src]="event.pricipalPicture" alt="Card image cap" *ngIf="event.pricipalPicture">
+    <div class="card-header">
+        <h5 class="card-title">
+            {{event.name}}
+            <small *ngIf="isInCart()"><fa-icon [icon]="faDolly"></fa-icon> x {{qte}}</small>
+        </h5>
+
+        <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faCalendar"></fa-icon> {{event.dateEvent | amDateFormat:'LL'}}</h6>
+
+        <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faMapMarker"></fa-icon> {{event.placeEvent}}</h6>
+
+        <h6 *ngIf="event.stateEvent === 'UNAVAILABLE'" class="mb-0">
+            <span class="badge badge-danger">
+                {{event.stateEvent}}
+            </span>
+        </h6>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{event.description}}</p>
+
+        <ng-container *ngIf="showAvailablePlaces()">
+            <hr>
+
+            <ng-container [ngSwitch]="showAvailablePlaces()">
+                <span *ngSwitchCase="true" class="places-available text-danger">
+                    {{event.availablePlaces > 0 ? 'Only ' + event.availablePlaces + ' places available!' : 'No place available'}}
+                </span>
+                <span *ngSwitchCase="false">—</span>
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="card-footer text-muted">
+        <a class="btn btn-primary" routerLink="/view-event/{{event.id}}">Details</a>
+
+        <ng-container [ngSwitch]="isInCart()">
+            <div class="btn-group" *ngSwitchCase="false">
+                <button type="button" class="btn btn-success" [disabled]="!isAvailable() || maxAdd < 1" (click)="addToCart()">Add to cart ({{event.price}}€)</button>
+                <div class="btn-group" ngbDropdown role="group">
+                    <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable() || maxAdd < 1"></button>
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                        <button class="dropdown-item" [disabled]="maxAdd < 2" (click)="addToCart(2)">Add two tickets ({{event.price * 2}}€)</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 3" (click)="addToCart(3)">Add three tickets ({{event.price * 3}}€)</button>
+                        <button class="dropdown-item" [disabled]="maxAdd < 4" (click)="addToCart(4)">Add four tickets ({{event.price * 4}}€)</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable() || maxAdd < 1">Add a ticket ({{event.price}}€)</button>
+        </ng-container>
+    </div>
+</div>
