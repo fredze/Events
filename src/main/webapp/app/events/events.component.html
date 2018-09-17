@@ -2,12 +2,18 @@
     <hr *ngIf="i > 0">
 
     <div class="row">
-        <div class="col-12">
-            <h3>&bull; {{c.name}} <a routerLink="/view-category/{{c.id}}">more...</a></h3>
+        <div class="col-12 mb-1">
+            <h4>{{c.name}}</h4>
         </div>
 
-        <div class="col-12 col-md-3" *ngFor="let e of eventsArray(c.id)">
+        <div class="col-12 col-md-2" *ngFor="let e of eventsArray(c.id)">
             <jhi-event [event]="e"></jhi-event>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <a routerLink="/view-category/{{c.id}}" class="text-dark">Show more</a>
         </div>
     </div>
 </ng-container>

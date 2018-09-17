@@ -1,4 +1,4 @@
-<div class="card" *ngIf="event">
+<!--<div class="card" *ngIf="event">
     <img class="card-img-top event-card-img" src="https://s3.eu-west-3.amazonaws.com/events-ecommerce-pictures/{{event.id}}.png" alt="Picture for the event {{event.name}}">
     <div class="card-header">
         <h5 class="card-title">
@@ -36,7 +36,7 @@
         <ng-container [ngSwitch]="isInCart()">
             <div class="btn-group" *ngSwitchCase="false">
                 <button type="button" class="btn btn-success" [disabled]="!isAvailable() || maxAdd < 1" (click)="addToCart()">Add to cart ({{event.price}}€)</button>
-                <div class="btn-group" ngbDropdown role="group">
+                <div class="btn-group" ngbDropdown role="group" placement="bottom-right">
                     <button class="btn btn-success dropdown-toggle-split" ngbDropdownToggle [disabled]="!isAvailable() || maxAdd < 1"></button>
                     <div class="dropdown-menu" ngbDropdownMenu>
                         <button class="dropdown-item" [disabled]="maxAdd < 2" (click)="addToCart(2)">Add two tickets ({{event.price * 2}}€)</button>
@@ -47,5 +47,42 @@
             </div>
             <button class="btn btn-outline-success" (click)="addToCart()" *ngSwitchCase="true" [disabled]="!isAvailable() || maxAdd < 1">Add a ticket ({{event.price}}€)</button>
         </ng-container>
+    </div>
+</div>-->
+
+<div *ngIf="event" class="row">
+    <div class="col">
+        <img id="img" src="https://s3.eu-west-3.amazonaws.com/events-ecommerce-pictures/{{event.id}}.png" alt="Picture for the event {{event.name}}">
+
+        <h5 id="name">
+            {{event.name}}
+            <small *ngIf="isInCart()"><fa-icon [icon]="faDolly"></fa-icon> x {{qte}}</small>
+        </h5>
+
+        <div id="info">
+            <h6 id="date">
+                <span class="info-icon">
+                    <fa-icon [icon]="faCalendar"></fa-icon>
+                </span>
+
+                {{event.dateEvent | amDateFormat:'LL'}}
+            </h6>
+            <h6 id="place">
+                <span class="info-icon">
+                    <fa-icon [icon]="faMapMarker"></fa-icon>
+                </span>
+
+                {{event.placeEvent}}
+            </h6>
+        </div>
+
+        <div id="description">
+            {{event.description}}
+        </div>
+
+        <div class="actions mt-2">
+            <a routerLink="/view-event/{{event.id}}">Details</a>
+            <a class="float-md-right text-success" (click)="addToCart()">Add ticket</a>
+        </div>
     </div>
 </div>

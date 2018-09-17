@@ -2,7 +2,37 @@
     font-weight: bold;
 }
 
-.event-card-img {
-    max-height: 200px;
-    object-fit: contain;
+#img {
+    height: 140px;
+    width: 100%;
+    /*object-fit: contain;*/
+}
+
+#name {
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+
+#info > * {
+    margin-bottom: 0;
+    color: #666;
+
+    .info-icon {
+        display: inline-block;
+        width: 20px;
+    }
+}
+
+#date {
+}
+
+#place {
+}
+
+#description {
+    color: #444;
+    margin-top: 8px;
+    max-height: 2.8em;
+    line-height: 1.4em;
+    overflow: hidden;
 }

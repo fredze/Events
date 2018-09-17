@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Event, StateEvent } from '../../shared/model/event.model';
-import { CartService } from '../../cart/cart.service';
+import { Event, StateEvent } from 'app/shared/model/event.model';
+import { CartService } from 'app/cart/cart.service';
 import { faDolly, faCalendar, faMapMarker } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

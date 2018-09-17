@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col">
             <div class="form-group row">
-                <label for="rangeStart" class="col-4 col-form-label">Prix de départ</label>
+                <label for="rangeStart" class="col-4 col-form-label">Beginning price</label>
                 <div class="col-8">
                     <input type="number" class="form-control" [min]="min" [max]="max" [(ngModel)]="range.start" name="rangeStart" id="rangeStart">
                 </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="col">
             <div class="form-group row">
-                <label for="rangeEnd" class="col-4 col-form-label">Prix de fin</label>
+                <label for="rangeEnd" class="col-4 col-form-label">End price</label>
                 <div class="col-8">
                     <input type="number" class="form-control" [min]="min" [max]="max" [(ngModel)]="range.end" name="rangeEnd" id="rangeEnd">
                 </div>
@@ -29,8 +29,8 @@
     </div>
 </form>
 
-<div class="row mb-2" *ngFor="let e of eventsFiltered">
-    <div class="col">
+<div class="row">
+    <div class="col-2 mb-2" *ngFor="let e of eventsFiltered">
         <jhi-event [event]="e"></jhi-event>
     </div>
 </div>

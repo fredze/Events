@@ -1,6 +1,24 @@
 # EventsEcommerce
 This application was generated using JHipster 5.3.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.3.0](https://www.jhipster.tech/documentation-archive/v5.3.0).
 
+## Development TLDR
+
+### Linux / MacOS
+
+```
+npm i
+./mvnw
+npm start
+```
+
+### Windows
+
+```
+npm i
+mvnw
+npm start
+```
+
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
