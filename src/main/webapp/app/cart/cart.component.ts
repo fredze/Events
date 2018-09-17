@@ -39,7 +39,7 @@ export class CartComponent implements OnInit {
     ngOnInit() {
         this.refresh();
         this.principal.identity().then(); // Login
-        this.initConfig(); //paypal
+        this.initConfig(); // paypal
     }
     private initConfig(): void {
         this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {
