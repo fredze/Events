@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItem, CartService } from './cart.service';
-import { Principal } from '../core/auth/principal.service';
+import { Principal } from 'app/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginModalService } from 'app/core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { CategoryService } from 'app/entities/category';
 import { Category } from 'app/shared/model/category.model';
 import { Event } from 'app/shared/model/event.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { PayPalConfig, PayPalEnvironment, PayPalIntegrationType } from 'ngx-paypal';
 
 @Component({
     selector: 'jhi-cart',
     templateUrl: './cart.component.html',
-    styles: []
+    styleUrls: ['cart.component.scss']
 })
 export class CartComponent implements OnInit {
     products: CartItem[];
@@ -23,6 +22,7 @@ export class CartComponent implements OnInit {
     payPalConfig?: PayPalConfig;
 
     faTimes = faTimes;
+    faCreditCard = faCreditCard;
 
     constructor(
         private cartService: CartService,
@@ -39,8 +39,9 @@ export class CartComponent implements OnInit {
     ngOnInit() {
         this.refresh();
         this.principal.identity().then(); // Login
-        this.initConfig(); // paypal
+        this.initConfig(); // PayPal
     }
+
     private initConfig(): void {
         this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {
             commit: true,
@@ -69,6 +70,7 @@ export class CartComponent implements OnInit {
             ]
         });
     }
+
     removeProduct(p: CartItem) {
         this.cartService.removeProduct(p);
         this.refresh();
@@ -105,26 +107,22 @@ export class CartComponent implements OnInit {
     enterPaymentInfo(content) {
         this.modalservice.open(content, { size: 'lg' }).result.then();
     }
+
     generateMonth() {
-        const tab = [];
-        for (let i = 1; i <= 12; i++) {
-            tab.push(i);
-        }
-        return tab;
+        return Array.from(new Array(12), (x, i) => i + 1);
     }
+
     generateDay() {
-        const tab = [];
-        for (let i = 1; i <= 31; i++) {
-            tab.push(i);
-        }
-        return tab;
+        return Array.from(new Array(30), (x, i) => i + 1);
     }
+
     payOrderCC(modal) {
         this.cartService.addOrder().subscribe(res => {
             this.toastr.success(`Success: order number ${res.body.id} received!`);
             this.cartService.emptyCart();
             this.router.navigate(['/events']);
         });
+
         modal.close();
     }
 }

@@ -65,7 +65,7 @@
                     <fa-icon [icon]="faCalendar"></fa-icon>
                 </span>
 
-                {{event.dateEvent | amDateFormat:'LL'}}
+                {{event.dateEvent | amDateFormat: 'LL'}}
             </h6>
             <h6 id="place">
                 <span class="info-icon">
@@ -73,6 +73,13 @@
                 </span>
 
                 {{event.placeEvent}}
+            </h6>
+            <h6 id="price">
+                <span class="info-icon">
+                    <fa-icon [icon]="faDollarSign"></fa-icon>
+                </span>
+
+                {{event.price}} €
             </h6>
         </div>
 
@@ -82,7 +89,7 @@
 
         <div class="actions mt-2">
             <a routerLink="/view-event/{{event.id}}">Details</a>
-            <a class="float-right text-success" (click)="addToCart()">Add ticket</a>
+            <a class="float-right text-success" (click)="addToCart()" href="javascript:void(0)">Add ticket</a>
         </div>
     </div>
 </div>
