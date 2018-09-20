@@ -1,5 +1,27 @@
 <div *ngIf="products.length > 0; else noProducts">
-    <ul class="list-group">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom du produit</th>
+            <th>Date de l'événement</th>
+            <th>Prix unitaire</th>
+            <th>Quantité</th>
+            <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of products">
+            <td>{{p.item.name}}</td>
+            <td>{{p.item.dateEvent | amDateFormat: 'LL'}}</td>
+            <td>{{p.item.price}} €</td>
+            <td><input type="number" min="1" [max]="p.item.availablePlaces" step="1" class="form-control" id="number-{{p.id}}" name="number-{{p.id}}" [(ngModel)]="p.number"></td>
+            <td><button class="btn btn-danger" (click)="removeProduct(p)"><fa-icon [icon]="faTimes"></fa-icon></button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--<ul class="list-group">
         <li *ngFor="let p of products" class="list-group-item">
             {{p.item.name}} ({{getCategoryName(p.item)}})
 
@@ -24,7 +46,7 @@
                 </form>
             </div>
         </li>
-    </ul>
+    </ul>-->
 
     <hr>
 

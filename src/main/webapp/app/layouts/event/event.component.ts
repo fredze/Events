@@ -41,7 +41,7 @@ export class EventComponent implements OnInit {
     }
 
     isAvailable(): boolean {
-        return this.event.availablePlaces > 0 && this.event.stateEvent === StateEvent.AVAILABLE;
+        return CartService.isAvailable(this.event);
     }
 
     showAvailablePlaces(): boolean {
