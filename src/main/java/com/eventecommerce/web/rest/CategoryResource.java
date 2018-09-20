@@ -2,6 +2,9 @@ package com.eventecommerce.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.eventecommerce.domain.Category;
+import com.eventecommerce.domain.CategoryWE;
+import com.eventecommerce.domain.Event;
+import com.eventecommerce.repository.EventRepository;
 import com.eventecommerce.service.CategoryService;
 import com.eventecommerce.web.rest.errors.BadRequestAlertException;
 import com.eventecommerce.web.rest.util.HeaderUtil;
@@ -10,6 +13,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +40,35 @@ public class CategoryResource {
 
     private final CategoryService categoryService;
 
-    public CategoryResource(CategoryService categoryService) {
+    private final EventRepository eventRepository;
+
+    public CategoryResource(CategoryService categoryService, EventRepository eventRepository) {
         this.categoryService = categoryService;
+        this.eventRepository = eventRepository;
+    }
+
+    /**
+     * List all the categories with a finite number of events associated
+     * @param numberOnEach the number to show
+     * @return the list of categories
+     */
+    @GetMapping("/categories-list-recent")
+    @Timed
+    public List<CategoryWE> getListRecentCategories(@RequestParam(name="count") int numberOnEach) {
+        Page<Category> categories = this.categoryService.findAll(Pageable.unpaged());
+        List<CategoryWE> categoryWEs = new ArrayList<>();
+
+        for (Category c : categories) {
+            CategoryWE ctmp = new CategoryWE();
+            ctmp.category = c;
+
+            Page<Event> events = this.eventRepository.findByCategory(c.getId(), PageRequest.of(0, numberOnEach));
+            ctmp.events = events.getContent();
+
+            categoryWEs.add(ctmp);
+        }
+
+        return categoryWEs;
     }
 
     /**
