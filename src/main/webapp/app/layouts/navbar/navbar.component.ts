@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { faDolly, faMapMarked, faSearch, faCog, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faDolly, faMapMarked, faSearch, faCog, faTimes, faFilter } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 
 import { VERSION } from 'app/app.constants';
@@ -31,6 +31,7 @@ export class NavbarComponent implements OnInit {
     faCog = faCog;
     faMapMarked = faMapMarked;
     faTimes = faTimes;
+    faFilter = faFilter;
 
     sDateEventFrom = moment();
     sDateEventTo = moment().add(2, 'y');

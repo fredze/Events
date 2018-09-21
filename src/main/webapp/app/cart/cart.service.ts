@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Event } from '../shared/model/event.model';
-import { EventOrderService } from '../entities/event-order/event-order.service';
+import { Event, StateEvent } from '../shared/model/event.model';
+import { EventOrderService } from 'app/entities/event-order';
 import { ToastrService } from 'ngx-toastr';
 
 /**
@@ -21,6 +21,10 @@ export class CartItem {
 })
 export class CartService {
     products: Map<number, CartItem>; // key: product id, value: CartItem
+
+    static isAvailable(event: Event): boolean {
+        return event.availablePlaces > 0 && event.stateEvent === StateEvent.AVAILABLE;
+    }
 
     constructor(private eventOrderService: EventOrderService, private toastr: ToastrService) {
         this.products = new Map();

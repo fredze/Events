@@ -5,9 +5,15 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ICategory } from 'app/shared/model/category.model';
+import { IEvent } from 'app/shared/model/event.model';
 
 type EntityResponseType = HttpResponse<ICategory>;
 type EntityArrayResponseType = HttpResponse<ICategory[]>;
+
+export interface ICategoryWE {
+    category: ICategory;
+    events: IEvent[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
@@ -34,5 +40,10 @@ export class CategoryService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    listRecent(count = 6) {
+        const options = createRequestOption({ count });
+        return this.http.get<ICategoryWE[]>(`${this.resourceUrl}-list-recent`, { params: options, observe: 'response' });
     }
 }

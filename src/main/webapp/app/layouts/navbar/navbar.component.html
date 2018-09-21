@@ -5,7 +5,7 @@
         </a>
         <a class="navbar-brand logo float-left" routerLink="/" (click)="collapseNavbar()">
             <!--<span class="logo-img"></span>-->
-            <span class="navbar-title">Events</span><!-- <span class="navbar-version">{{version}}</span>-->
+            <span class="navbar-title">EVE</span>
         </a>
     </div>
     <div class="navbar-search">
@@ -16,8 +16,8 @@
                     <div class="btn-group">
                         <button class="btn btn-primary no-border-radius-left" (click)="search()"><fa-icon [icon]="faSearch"></fa-icon></button>
                         <div class="btn-group">
-                            <div ngbDropdown [autoClose]="false" placement="bottom-right">
-                                <button class="btn btn-warning no-border-radius-left" id="dropdownBasic1" ngbDropdownToggle><fa-icon [icon]="faCog"></fa-icon></button>
+                            <div ngbDropdown autoClose="outside" placement="bottom-right">
+                                <button class="btn btn-warning no-border-radius-left" id="dropdownBasic1" ngbDropdownToggle><fa-icon [icon]="faFilter"></fa-icon></button>
                                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                     <form class="px-3 py-2">
                                         <div class="form-group">
@@ -227,7 +227,7 @@
                     </li>
                 </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown pointer" [autoClose]="false" placement="bottom-right" #cartDp="ngbDropdown">
+            <li ngbDropdown class="nav-item dropdown pointer" autoClose="outside" placement="bottom-right" #cartDp="ngbDropdown">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="cartnavBarDropdown">
                     <span>
                         <fa-icon [icon]="faDolly"></fa-icon>
@@ -249,7 +249,7 @@
                                 <span>{{c.number}} x {{c.item.price}}€</span>
                             </span>
                             <span class="flex-fill"></span>
-                            <button class="btn btn-sm btn-danger py-0 px-2" (click)="removeCart(c)"><fa-icon [icon]="faTimes"></fa-icon></button>
+                            <button class="btn btn-sm btn-danger py-0 px-2" (click)="removeCart(c); $event.stopPropagation();"><fa-icon [icon]="faTimes"></fa-icon></button>
                         </div>
                     </li>
                     <li>
