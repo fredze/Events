@@ -1,10 +1,13 @@
 package com.eventecommerce.service;
 
+import com.eventecommerce.domain.EventOrderLine;
 import com.eventecommerce.domain.User;
 
 import io.github.jhipster.config.JHipsterProperties;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import javax.mail.internet.MimeMessage;
 
@@ -29,6 +32,8 @@ public class MailService {
     private final Logger log = LoggerFactory.getLogger(MailService.class);
 
     private static final String USER = "user";
+
+    private static final String ORDER_LINE = "orderlines";
 
     private static final String BASE_URL = "baseUrl";
 
@@ -78,6 +83,20 @@ public class MailService {
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable(USER, user);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(user.getEmail(), subject, content, false, true);
+
+    }
+
+    @Async
+    public void sendOrderEmailFromTemplate(User user, List<EventOrderLine> orderLines, double totalOrder, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, user);
+        context.setVariable("total",totalOrder);
+        context.setVariable(ORDER_LINE,orderLines);
         context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);

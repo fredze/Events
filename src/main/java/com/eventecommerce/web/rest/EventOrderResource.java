@@ -1,14 +1,15 @@
 package com.eventecommerce.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.eventecommerce.domain.Event;
-import com.eventecommerce.domain.EventOrder;
-import com.eventecommerce.domain.EventOrderLine;
+import com.eventecommerce.domain.*;
 import com.eventecommerce.domain.enumeration.StateEventOrder;
 import com.eventecommerce.repository.EventOrderLineRepository;
 import com.eventecommerce.repository.EventOrderRepository;
 import com.eventecommerce.repository.EventRepository;
+import com.eventecommerce.repository.UserRepository;
+import com.eventecommerce.security.SecurityUtils;
 import com.eventecommerce.service.EventService;
+import com.eventecommerce.service.MailService;
 import com.eventecommerce.web.rest.errors.BadRequestAlertException;
 import com.eventecommerce.web.rest.util.HeaderUtil;
 import com.eventecommerce.web.rest.util.PaginationUtil;
@@ -45,9 +46,15 @@ public class EventOrderResource {
 
     private  EventOrderLineRepository eventOrderLineRepository;
 
+    private MailService mailService;
+
+    private static UserRepository userRepository;
+
     private EventRepository eventRepository;
 
-    public EventOrderResource(EventRepository eventRepository, EventOrderRepository eventOrderRepository, EventOrderLineRepository eventOrderLineRepository) {
+    public EventOrderResource(EventRepository eventRepository,MailService mailService, UserRepository userRepository, EventOrderRepository eventOrderRepository, EventOrderLineRepository eventOrderLineRepository) {
+        this.mailService = mailService;
+        this.userRepository = userRepository;
         this.eventOrderRepository = eventOrderRepository;
         this.eventOrderLineRepository = eventOrderLineRepository;
         this.eventRepository = eventRepository;
@@ -81,6 +88,7 @@ public class EventOrderResource {
             eventOrderLineRepository.save(eLine);
         }
 
+        this.sendOrderEmail(eventOrder.getId());
         /*log.debug("REST request to save EventOrder with listorderLine: {}", eventOrder);
         if (eventOrder.getId() != null) {
             throw new BadRequestAlertException("A new eventOrder cannot already have an ID", ENTITY_NAME, "idexists");
@@ -88,6 +96,26 @@ public class EventOrderResource {
         return ResponseEntity.created(new URI("/api/create-event-orders/" + eventOrder.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, eventOrder.getId().toString()))
             .body(eventOrder);
+    }
+
+    public void sendOrderEmail(Long idOrder)  {
+        //log.debug("REST request to save Category : {}",email);
+
+        String test = SecurityUtils.getCurrentUserLogin().get();
+        String userEmail = userRepository.findEmailByLogin(test);
+
+        log.debug("login =========== "+test);
+        log.debug("user email =========== "+userEmail);
+        List<EventOrderLine> ordersLine = eventOrderLineRepository.findEventsOrderByEventOrderLine(idOrder);
+
+
+        User user = new User();
+        user.setEmail(userEmail);
+        user.setActivated(true);
+        user.setLangKey("en");
+        //mailService.sendEmail(email.getTo(),email.getSubject(),result,email.isMultipart(),email.isHtml());
+        //mailService.sendEmailFromTemplate(user,"mail/orderEmail","email.activation.title");
+        mailService.sendOrderEmailFromTemplate(user,ordersLine,ordersLine.get(0).getEventOrder().getTotalPrice(),"mail/orderEmail","email.order.title");
     }
 
     /**
