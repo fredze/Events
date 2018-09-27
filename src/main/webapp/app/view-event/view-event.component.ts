@@ -6,6 +6,7 @@ import { EventService } from 'app/entities/event';
 import { IEvent, StateEvent } from 'app/shared/model/event.model';
 import { map } from 'rxjs/operators';
 import { CartService } from 'app/cart/cart.service';
+import { faCalendar, faDollarSign, faMapMarker } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'jhi-view-event',
@@ -14,6 +15,9 @@ import { CartService } from 'app/cart/cart.service';
 })
 export class ViewEventComponent implements OnInit {
     public event: IEvent;
+    public faCalendar = faCalendar;
+    public faMapMarker = faMapMarker;
+    public faDollarSign = faDollarSign;
 
     constructor(
         private cartService: CartService,

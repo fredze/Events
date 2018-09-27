@@ -16,8 +16,27 @@
                 {{event.name}}
             </h1>
             <div class="text-muted event-location">
-                <span>{{event.dateEvent | amDateFormat:'LLL'}}</span>
-                <span>{{event.placeEvent}}</span>
+                <div>
+                    <span class="info-icon">
+                        <fa-icon [icon]="faCalendar"></fa-icon>
+                    </span>
+                    <span>{{event.dateEvent | amDateFormat:'LLL'}}</span>
+                </div>
+
+                <div>
+                    <span class="info-icon">
+                        <fa-icon [icon]="faMapMarker"></fa-icon>
+                    </span>
+                    <span>{{event.placeEvent}}</span>
+                </div>
+
+                <div>
+                    <span class="info-icon">
+                        <fa-icon [icon]="faDollarSign"></fa-icon>
+                    </span>
+
+                    {{event.price}} €
+                </div>
             </div>
             <div class="badge badge-danger" *ngIf="event.stateEvent === 'UNAVAILABLE'">
                 {{event.stateEvent}}
