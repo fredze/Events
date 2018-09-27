@@ -17,6 +17,6 @@ export class EventsComponent implements OnInit {
     ngOnInit() {}
 
     fetchCategories(): void {
-        this.categoryService.listRecent(3).subscribe(icwe => (this.categories = icwe.body));
+        this.categoryService.listRecent(6).subscribe(icwe => (this.categories = icwe.body));
     }
 }
